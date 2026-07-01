@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HACT — Human Adversarial Cognitive Tactics | Anti-Social-Engineering Matrix</title>
+<meta name="description" content="HACT: an ATT&CK-style knowledge base of social-engineering tactics, techniques (TTPs), indicators (IoH) and countermeasures. Educational, defensive." />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<header class="top">
+  <div class="nav">
+    <div class="brand">
+      <span class="logo">H<b>ACT</b>&amp;CK</span>
+      <span class="sub" id="brand-sub"></span>
+    </div>
+    <nav class="links">
+      <a href="#matrix">Matrix</a>
+      <a href="#analogy">HACT vs ATT&amp;CK</a>
+      <a href="#detection">Detection</a>
+      <a href="#ai">AI threats</a>
+      <a href="#cases">Cases</a>
+      <a href="#defense">Defense</a>
+      <a href="#compliance">Compliance</a>
+    </nav>
+    <div class="search"><input id="search" type="search" placeholder="Search techniques…" autocomplete="off" /></div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <h1>H<b>ACT</b> — Human Adversarial Cognitive Tactics</h1>
+    <p class="lead">The adversarial knowledge base for social engineering &amp; human intelligence (HUMINT) operations — modeled on MITRE ATT&amp;CK®. Every tactic, technique, indicator of operation (IoH) and countermeasure of the HACT anti-social-engineering framework.</p>
+    <p class="meta">A framework by Aurélien T. · Published for educational and defensive purposes only.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</div>
+<div class="disclaimer">
+  HACT is an independent conceptual adaptation inspired by the structure of MITRE ATT&amp;CK®. It is <b>not affiliated with, endorsed by, or sponsored by</b> The MITRE Corporation. MITRE ATT&amp;CK® is a registered trademark of The MITRE Corporation.
+</div>
+
+<main>
+
+  <!-- MATRIX -->
+  <section id="matrix">
+    <h2 class="sec">The HACT Matrix — <span id="count-tactics"></span> tactics, <span id="count-tech"></span> techniques</h2>
+    <p class="sec-note">Columns are tactics (the adversary's <em>why</em>); cells are techniques (the <em>how</em>). Click any cell for technique detail, or a column header for the full tactic — objective, ATT&amp;CK equivalent, scoring, IoH and countermeasures.</p>
+    <div class="matrix-toolbar">
+      <div class="legend">
+        <span><span class="dot high"></span>High severity</span>
+        <span><span class="dot medium"></span>Medium</span>
+        <span><span class="dot ai"></span>AI-augmented technique</span>
+      </div>
+    </div>
+    <div class="matrix-wrap">
+      <table class="matrix" id="matrix">
+        <thead><tr></tr></thead>
+        <tbody><tr></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ANALOGY -->
+  <section id="analogy">
+    <h2 class="sec">HACT vs MITRE ATT&amp;CK®</h2>
+    <p class="sec-note">ATT&amp;CK describes technical actions against systems; HACT describes cognitive maneuvers against decisions. Same two-level structure (tactics → techniques), different object.</p>
+    <div class="tabs">
+      <div class="tab active" data-pane="pane-arch">Architecture</div>
+      <div class="tab" data-pane="pane-hve">CVE → HVE mapping</div>
+      <div class="tab" data-pane="pane-ppse">Persuasion principles</div>
+    </div>
+    <div>
+      <div class="pane active" id="pane-arch"><table class="data" id="tbl-arch"></table></div>
+      <div class="pane" id="pane-hve">
+        <table class="data" id="tbl-hve"></table>
+        <p class="sec-note" style="margin-top:10px">HVE (Human Vulnerabilities and Exploits) are the human equivalent of CVEs: not software bugs but exploitable cognitive biases and psychological needs. A CVE is patched; an HVE is compensated for with structured vigilance.</p>
+      </div>
+      <div class="pane" id="pane-ppse"><div class="grid" id="ppse"></div></div>
+    </div>
+  </section>
+
+  <!-- DETECTION -->
+  <section id="detection">
+    <h2 class="sec">Detection — Indicators of HUMINT Operation (IoH)</h2>
+    <p class="sec-note">Where cyber uses binary Indicators of Compromise (IoC), human signals are weak and contextual. HACT applies a threshold rule instead of concluding on a single signal.</p>
+    <div class="callout"><b>The rule of three IoH.</b> <span id="three-ioh"></span></div>
+    <div class="tabs" style="margin-top:18px">
+      <div class="tab active" data-pane="pane-score">Detection scoring</div>
+      <div class="tab" data-pane="pane-targets">Most-targeted profiles</div>
+    </div>
+    <div>
+      <div class="pane active" id="pane-score"><table class="data" id="tbl-scoring"></table></div>
+      <div class="pane" id="pane-targets">
+        <table class="data" id="tbl-targets"></table>
+        <p class="sec-note" style="margin-top:8px">Source: Check Point / Dimensional Research, 2011, n=853 professionals, 6 countries. New employees should receive SE training within the first 30 days, before any access to sensitive systems.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI THREATS -->
+  <section id="ai">
+    <h2 class="sec">Emerging AI-augmented threats</h2>
+    <p class="sec-note">Generative AI industrializes social engineering. Click a card for the full indicator table and operational countermeasure.</p>
+    <div class="grid" id="ai-threats"></div>
+  </section>
+
+  <!-- CASES -->
+  <section id="cases-sec">
+    <h2 class="sec">Documented real-world cases</h2>
+    <p class="sec-note" id="cases-note">Each case is mapped to the HACT tactics it activated. Click a tactic tag to open it.</p>
+    <div class="grid" id="cases"></div>
+    <div class="callout blue" style="margin-top:16px">
+      <b id="insider-title"></b><br /><span id="insider-text"></span>
+    </div>
+  </section>
+
+  <!-- DEFENSE -->
+  <section id="defense">
+    <h2 class="sec">Defense — the five emergency reflexes</h2>
+    <p class="sec-note">The whole framework condensed into five reflexes usable in under sixty seconds when facing any unusual request.</p>
+    <div class="grid" id="reflexes"></div>
+    <h2 class="sec" style="margin-top:28px">Organizational maturity model</h2>
+    <table class="data" id="tbl-maturity"></table>
+    <p class="sec-note" style="margin-top:8px">Most organizations sit between N1 and N2. The N2→N3 jump is the most impactful and the cheapest: a 2-hour annual training for at-risk populations plus written procedures for urgent requests. Recommended minimum target: N3.</p>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section id="compliance">
+    <h2 class="sec">Regulatory mapping (France / EU)</h2>
+    <p class="sec-note">Implementing HACT countermeasures per tactic simultaneously satisfies several GDPR and NIS2 requirements.</p>
+    <table class="data" id="tbl-reg"></table>
+    <h2 class="sec" style="margin-top:26px">Maximum sanctions</h2>
+    <table class="data" id="tbl-sanctions"></table>
+  </section>
+
+  <!-- BIBLIO -->
+  <section id="biblio-sec">
+    <h2 class="sec">Selected bibliography</h2>
+    <ul id="biblio" style="columns:2;column-gap:32px;font-size:13px;color:var(--muted);line-height:1.6"></ul>
+  </section>
+
+</main>
+
+<div class="modal-back" id="modal-back"><div class="modal" id="modal"></div></div>
+
+<footer>
+  <div class="fin">
+    <strong>HACT — Human Adversarial Cognitive Tactics</strong> · A framework by Aurélien T. · Educational &amp; defensive use only.<br />
+    Contact: Livre_OSINT@proton.me
+    <p class="tm">HACT draws on the conceptual structure of MITRE ATT&amp;CK® — freely accessible under its terms of use — but is an independent work. Its content, taxonomic choices and conclusions are the sole responsibility of the author and in no way express the views of The MITRE Corporation or its staff. MITRE ATT&amp;CK® and ATT&amp;CK® are registered trademarks of The MITRE Corporation.</p>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
