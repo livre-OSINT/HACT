@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HACT — Response & Defensive Playbooks</title>
+<style>
+  :root{--navy:#0b2338;--navy-2:#12395b;--accent:#c8102e;--bg:#f4f6f8;--ink:#1b2a38;--muted:#5a6b7b;--line:#dce3ea;--cell-hover:#d6e6f2;--ai:#7a3cf0;--good:#2e7d32;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  header.top{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10}
+  header.top .logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+  header.top .logo b{color:#e94b5b}
+  header.top .sub{font-size:12.5px;color:#9db6cc}
+  header.top a{margin-left:auto;color:#cfe0ee;text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid #2c5578;padding:6px 12px;border-radius:18px}
+  header.top a:hover{background:#0a2135;color:#fff}
+  main{max-width:1100px;margin:0 auto;padding:20px}
+  h1{font-size:20px;border-left:4px solid var(--accent);padding-left:10px;margin:26px 0 6px}
+  h1:first-of-type{margin-top:6px}
+  p.note{color:var(--muted);font-size:14px;max-width:940px;margin:0 0 14px}
+  .phases{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+  .phase{background:#fff;border:1px solid var(--line);border-radius:10px;border-top:3px solid var(--accent);padding:14px 16px}
+  .phase .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:13px;align-items:center;justify-content:center;margin-right:8px}
+  .phase h3{display:flex;align-items:center;margin:0 0 8px;font-size:16px}
+  .phase h4{margin:10px 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .phase p{margin:0 0 6px;font-size:13.5px}
+  .phase .avoid{color:#8a0c1f;font-size:13px}
+  .phase .avoid b{color:var(--accent)}
+  .callout{background:#f2f8fc;border:1px solid #bcd8ec;border-left:4px solid var(--navy-2);border-radius:8px;padding:12px 14px;font-size:13.5px;margin:10px 0}
+  .callout b{color:var(--navy-2)}
+  table.data{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13.5px;border:1px solid var(--line)}
+  table.data th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:12.5px}
+  table.data td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  table.data td.k{font-weight:700;color:var(--accent);white-space:nowrap}
+  table.data td.t{font-weight:600;color:var(--navy-2);white-space:nowrap}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .card h3{margin:0 0 4px;font-size:15px}
+  .card .prog{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .chk{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13.5px;cursor:pointer;border-top:1px solid #eef2f5}
+  .chk:first-of-type{border-top:none}
+  .chk input{margin-top:3px;width:16px;height:16px;flex:0 0 auto;accent-color:var(--good)}
+  .chk.done span{color:var(--muted);text-decoration:line-through}
+  .axis{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy-2);border-radius:8px;padding:11px 14px;margin:8px 0}
+  .axis b{color:var(--navy-2)}
+  .q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+  .q li{margin:7px 0;font-size:13.5px}
+  .q li b{color:var(--accent)}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="logo">H<b>ACT</b></span>
+  <span class="sub">Response &amp; defensive playbooks</span>
+  <a href="index.html">← Back to the matrix</a>
+</header>
+<main>
+
+  <h1>Incident response plan — what to do when it happens</h1>
+  <p class="note">Detection and prevention keep you from complying; this plan tells you what to do once an operation is suspected or confirmed. Six phases, in order — each with its objective, immediate actions, and the mistake to avoid. Adapted from the book's incident-response procedure (chapter 6.3).</p>
+  <div class="phases" id="phases"></div>
+  <div class="callout" id="legal"></div>
+
+  <h1>Countermeasures catalogue — CM-Hxxx by tactic</h1>
+  <p class="note">The defensive counterpart of the 13 tactics. Each countermeasure set (CM-H001 → CM-H013) maps to the tactic it neutralizes. Unlike a CVE, a human vulnerability (HVE) is never "patched" — it is compensated for with the structured vigilance below.</p>
+  <div style="overflow:auto"><table class="data" id="cm"></table></div>
+
+  <h1>Individual checklists</h1>
+  <p class="note">Concrete daily gestures. Ticks are saved in your browser so you can track progress over time.</p>
+  <div class="cols">
+    <div class="card"><h3>Digital hygiene — review regularly</h3><div class="prog" id="p-hyg"></div><div id="hyg"></div></div>
+    <div class="card"><h3>Relational vigilance — reflexes to build</h3><div class="prog" id="p-vig"></div><div id="vig"></div></div>
+  </div>
+
+  <h1>Organizational measures — 5 priority axes</h1>
+  <p class="note">For teams and organizations. Human and technical security are synergistic, not substitutable.</p>
+  <div id="axes"></div>
+
+  <h1>Bonus — the 4 questions your brain asks at first contact</h1>
+  <p class="note">According to Christopher Hadnagy, when someone approaches you for the first time your brain instinctively processes four questions within seconds — often unconsciously. A skilled attacker answers them before you consciously ask, through appearance, tone, pretext and urgency, to disable your natural vigilance and keep you in System 1.</p>
+  <ul class="q">
+    <li><b>Who are you?</b> — your identity, role, legitimacy to contact me.</li>
+    <li><b>What do you want?</b> — the intent behind the approach.</li>
+    <li><b>Are you a threat?</b> — is there danger, risk, a reason to distrust?</li>
+    <li><b>How long will this take?</b> — can I afford this interaction right now?</li>
+  </ul>
+  <div class="callout"><b>Protective exercise.</b> When an unusual contact approaches, explicitly ask yourself these four questions before replying. The mere act of verbalizing them internally activates System 2 and slows the process down — enough to detect most low-sophistication attacks.</div>
+
+</main>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s);};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[m];});}
+
+  // ---- 6-phase incident response plan ----
+  var PHASES=[
+    {t:"Detection",a:"Identify and document the observed IoH (dates, channels, wording, requests).",avoid:"Do NOT alert the suspect — tipping them off makes them adapt or vanish, and destroys evidence."},
+    {t:"Containment",a:"Stop all exchanges with the suspect contact. Transmit no further information of any kind.",avoid:"Don't keep talking “just to be sure” — every extra message is more collection for the adversary."},
+    {t:"Evaluation",a:"Apply the rule of three IoH. Soberly assess what may already have been disclosed and to whom.",avoid:"Don't minimize — list everything potentially exposed, even if it feels embarrassing."},
+    {t:"Reporting",a:"Alert your CISO / security team. Document the incident for the authorities where relevant.",avoid:"Don't stay silent out of shame — the window to limit impact is widest in the first hours."},
+    {t:"Remediation",a:"Change passwords, review and revoke exposed accesses, and warn potential secondary targets in your network.",avoid:"Don't stop at your own account — one compromised contact is a springboard to others (lateral movement)."},
+    {t:"Learning",a:"Run a blameless debrief, update procedures, and add targeted training where the gap appeared.",avoid:"Don't punish the person who reported — blame kills the reporting culture you depend on."}
+  ];
+  $("#phases").innerHTML=PHASES.map(function(p,i){
+    return '<div class="phase"><h3><span class="n">'+(i+1)+'</span>'+esc(p.t)+'</h3>'+
+      '<h4>Immediate actions</h4><p>'+esc(p.a)+'</p>'+
+      '<h4>Avoid</h4><p class="avoid"><b>✕</b> '+esc(p.avoid)+'</p></div>';
+  }).join("");
+  $("#legal").innerHTML='<b>Legal note (France / EU).</b> A personal-data breach resulting from a social-engineering attack must be notified to the CNIL within <b>72 hours</b> under the GDPR (Art. 33) when it poses a risk to individuals. Under NIS2, significant incidents must be notified to <b>ANSSI</b>. The “human factor” does not exempt an organization from these obligations.';
+
+  // ---- CM-Hxxx catalogue (from data.js) ----
+  var rows='<tr><th>CM code</th><th>Tactic neutralized</th><th>Conduct to hold (countermeasures)</th></tr>';
+  TACTICS.forEach(function(t,i){
+    var code='CM-H'+String(i+1).padStart(3,'0');
+    rows+='<tr><td class="k">'+code+'</td><td class="t">'+esc(t.id)+' — '+esc(t.name)+'</td><td>'+t.countermeasures.map(esc).join(' ')+'</td></tr>';
+  });
+  $("#cm").innerHTML=rows;
+
+  // ---- checklists with localStorage ----
+  var HYG=["Audit your social profiles: what information is public?","Configure privacy on Facebook, Instagram, LinkedIn","Strip EXIF metadata from your photos before posting","Check your exposure in breach databases (haveibeenpwned.com)","Use unique passwords and a password manager","Enable multi-factor authentication on all sensitive accounts","Don't publicly display your children, partner or home address","Clean up old, unused accounts"];
+  var VIG=["Systematically verify the identity of unusual new contacts","Apply the “cooling-off” rule before any urgent reply","Never share an OTP code, even under an official pretext","Confirm unusual requests via an independent channel","Report any suspicious contact to the security team (if organizational)","Set up verification codes with relatives for voice emergencies","Beware of empathy that is too fast or too perfectly synchronized","Refuse imposed migration to private / unverifiable channels"];
+  function store(k){try{return JSON.parse(localStorage.getItem(k)||"{}");}catch(e){return{};}}
+  function save(k,o){try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
+  function render(hostId,progId,items,key){
+    var st=store(key),host=$(hostId);
+    host.innerHTML=items.map(function(it,i){
+      var on=!!st[i];
+      return '<label class="chk'+(on?' done':'')+'" data-i="'+i+'"><input type="checkbox"'+(on?' checked':'')+'/><span>'+esc(it)+'</span></label>';
+    }).join("");
+    function upd(){var n=Object.keys(store(key)).filter(function(k){return store(key)[k];}).length;$(progId).textContent=n+" / "+items.length+" done";}
+    host.querySelectorAll(".chk").forEach(function(lb){
+      lb.addEventListener("change",function(){
+        var i=lb.getAttribute("data-i"),o=store(key);o[i]=lb.querySelector("input").checked;save(key,o);
+        lb.classList.toggle("done",o[i]);upd();
+      });
+    });
+    upd();
+  }
+  render("#hyg","#p-hyg",HYG,"hact_hyg");
+  render("#vig","#p-vig",VIG,"hact_vig");
+
+  // ---- organizational 5 axes ----
+  var AXES=[
+    ["Training","Regular training of all employees, including managers and executives. Realistic scenarios and attack simulations."],
+    ["Passwords","Audit weak passwords. Enforce multi-factor authentication on all sensitive systems."],
+    ["Filtering","Anti-spam / anti-phishing with behavioral detection. Automatic tagging of external emails (EXTERNAL tag)."],
+    ["Policies","Clear procedures for urgent financial requests. Mandatory dual validation for transfers above a set threshold."],
+    ["Technical security","EDR and SIEM to complement — not replace — human defense. Human and technical security are synergistic."]
+  ];
+  $("#axes").innerHTML=AXES.map(function(a,i){return '<div class="axis"><b>'+(i+1)+'. '+esc(a[0])+'</b> — '+esc(a[1])+'</div>';}).join("");
+})();
+</script>
+</body>
+</html>
