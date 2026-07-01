@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://livre-osint.github.io/HACT/sitemap.xml
