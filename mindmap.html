@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HACT — Framework Mind Map</title>
+<style>
+  :root{--navy:#0b2338;--navy-2:#12395b;--accent:#c8102e;--bg:#f4f6f8;--ink:#1b2a38;--muted:#5a6b7b;--line:#dce3ea;--cell-hover:#d6e6f2;--ai:#7a3cf0;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  header.top{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10}
+  header.top .logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+  header.top .logo b{color:#e94b5b}
+  header.top .sub{font-size:12.5px;color:#9db6cc}
+  header.top a{margin-left:auto;color:#cfe0ee;text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid #2c5578;padding:6px 12px;border-radius:18px}
+  header.top a:hover{background:#0a2135;color:#fff}
+  main{max-width:1200px;margin:0 auto;padding:20px}
+  h1{font-size:20px;border-left:4px solid var(--accent);padding-left:10px;margin:6px 0}
+  p.note{color:var(--muted);font-size:14px;max-width:900px;margin:0 0 14px}
+  .mm-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:0 0 14px}
+  .mm-legend .lg{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;padding:3px 8px;border-radius:16px;border:1px solid var(--line);background:#fff}
+  .mm-legend .lg:hover{background:var(--cell-hover)}
+  .mm-legend .sw{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+  .mm-legend .lg span{color:var(--muted)}
+  .mm-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 46%,#fff 0%,#eef3f7 70%,#e4ecf2 100%);padding:8px}
+  #mm-svg{min-width:900px}
+  #mm-svg svg{display:block;margin:0 auto;width:100%;height:auto;max-width:1060px}
+  .mm-node{cursor:pointer}
+  .mm-node:hover text{font-weight:700}
+  .mm-node:hover circle{stroke:var(--navy);stroke-width:2.5}
+  .mm-link{fill:none}
+  .mm-center-txt{fill:#fff;font-weight:800;text-anchor:middle}
+  .mm-tactic-lbl{font-weight:700}
+  .modal-back{position:fixed;inset:0;background:rgba(8,20,32,.55);display:none;z-index:100;padding:30px}
+  .modal-back.open{display:flex;align-items:flex-start;justify-content:center}
+  .modal{background:#fff;max-width:680px;width:100%;border-radius:12px;max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+  .m-head{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:16px 20px;position:relative}
+  .m-head .mid{color:#9db6cc;font-weight:700;font-size:12.5px}
+  .m-head h3{margin:2px 0 6px;font-size:20px}
+  .m-head .eq{font-size:12px;color:#cfe0ee}
+  .m-head .close{position:absolute;top:12px;right:14px;color:#fff;font-size:24px;cursor:pointer;line-height:1;opacity:.85}
+  .m-body{padding:16px 20px}
+  .m-body h4{margin:14px 0 5px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--accent)}
+  .m-body p{margin:0 0 8px}
+  .m-body ul{margin:6px 0;padding-left:20px}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}
+  .chip{display:inline-block;font-size:11px;font-weight:700;border-radius:10px;padding:2px 9px;color:#fff}
+  .chip.high{background:#c8102e}.chip.medium{background:#e08a00}.chip.ghost{background:#e6edf3;color:var(--muted)}
+  .tl{list-style:none;padding:0;margin:0}
+  .tl li{border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:6px;padding:8px 11px;margin:6px 0;background:#fbfcfe;cursor:pointer}
+  .tl li.ai{border-left-color:var(--ai)}
+  .tl li b{display:block;font-size:14px;margin:1px 0 2px}
+  .tl li span{font-size:12.5px;color:var(--muted)}
+  .tl li .tid{color:var(--accent);font-weight:700;font-size:11.5px}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="logo">H<b>ACT</b></span>
+  <span class="sub">Framework mind map — 13 tactics · 57 techniques</span>
+  <a href="index.html">← Back to the matrix</a>
+</header>
+<main>
+  <h1>Framework mind map</h1>
+  <p class="note">The whole HACT framework at a glance: the central model branches into its 13 tactics, and each tactic branches into its techniques. Click any node — or a legend entry — to open its detail. Techniques are shown by ID; AI-augmented techniques are marked in purple.</p>
+  <div class="mm-legend" id="mm-legend"></div>
+  <div class="mm-wrap"><div id="mm-svg"></div></div>
+</main>
+<div class="modal-back" id="modal-back"><div class="modal" id="modal"></div></div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s);};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[m];});}
+  function hue(i){return Math.round((i*360)/TACTICS.length);}
+  function tacticColor(i){return "hsl("+hue(i)+",58%,42%)";}
+  function pol(cx,cy,r,deg){var a=deg*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  var techByTactic={};
+  TACTICS.forEach(function(t){t.techniques.forEach(function(th){techByTactic[th.id]={th:th,t:t};});});
+  var aiById={};
+  (typeof AI_THREATS!=="undefined"?AI_THREATS:[]).forEach(function(a){aiById[a.id]=a;});
+
+  var back=$("#modal-back"),modal=$("#modal");
+  function open(h){modal.innerHTML=h;back.classList.add("open");modal.scrollTop=0;var c=modal.querySelector(".close");if(c)c.onclick=close;}
+  function close(){back.classList.remove("open");}
+  back.addEventListener("click",function(e){if(e.target===back)close();});
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
+  function head(id,name,eq){return '<div class="m-head"><span class="close">&times;</span><span class="mid">'+esc(id)+'</span><h3>'+name+'</h3><span class="eq">'+esc(eq)+'</span></div>';}
+
+  function openTactic(id){
+    var t=TACTICS.filter(function(x){return x.id===id;})[0];if(!t)return;
+    var h=head(t.id,esc(t.name),"MITRE ATT&CK equivalent  ↔  "+t.attack);
+    h+='<div class="m-body"><h4>Adversary objective</h4><p>'+esc(t.objective)+'</p>';
+    h+='<div class="chips"><span class="chip '+(t.severity==="HIGH"?"high":"medium")+'">'+esc(t.severity)+'</span><span class="chip ghost">Detection '+esc(t.detection)+'</span><span class="chip ghost">'+esc(t.frequency)+'</span></div>';
+    h+='<h4>Techniques ('+t.techniques.length+')</h4><ul class="tl">';
+    t.techniques.forEach(function(th){h+='<li class="'+(th.ai?"ai":"")+'" data-tech="'+th.id+'"><span class="tid">'+esc(th.id)+(th.ai?" · AI":"")+'</span><b>'+esc(th.name)+'</b><span>'+esc(th.desc)+'</span></li>';});
+    h+='</ul><h4>Indicators of HUMINT Operation (IoH)</h4><ul>';
+    t.ioh.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
+    h+='</ul><h4>Priority countermeasures</h4><ul>';
+    t.countermeasures.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
+    h+='</ul></div>';
+    open(h);
+    modal.querySelectorAll("[data-tech]").forEach(function(li){li.onclick=function(){openTechnique(li.getAttribute("data-tech"));};});
+  }
+  function openTechnique(id){
+    var rec=techByTactic[id];if(!rec)return;var th=rec.th,t=rec.t,ai=aiById[id];
+    var h=head(th.id,esc(th.name)+(th.ai?' <span class="chip" style="background:#7a3cf0">AI</span>':""),"Tactic: "+t.id+" · "+t.name+"  ↔  "+t.attack);
+    h+='<div class="m-body"><h4>Description</h4><p>'+esc(th.desc)+'</p>';
+    if(ai){h+='<h4>Threat summary</h4><p>'+esc(ai.summary)+'</p><h4>Countermeasure</h4><p>'+esc(ai.cm)+'</p>';}
+    h+='<p style="margin-top:12px"><a href="#" id="toTactic">→ View full tactic '+esc(t.id)+' ('+esc(t.name)+')</a></p></div>';
+    open(h);
+    var lt=modal.querySelector("#toTactic");if(lt)lt.onclick=function(e){e.preventDefault();openTactic(t.id);};
+  }
+
+  var tt=TACTICS.reduce(function(a,t){return a+t.techniques.length;},0);
+  var step=360/tt,cx=530,cy=530,R1=185,Rt=330,LBL=Rt+8,links=[],nodes=[],idx=0;
+  TACTICS.forEach(function(t,ti){
+    var color=tacticColor(ti);
+    var span=t.techniques.length*step,startDeg=idx*step-90,midDeg=startDeg+span/2;
+    var p=pol(cx,cy,R1,midDeg),tx=p[0],ty=p[1];
+    var m=pol(cx,cy,R1*0.55,midDeg);
+    links.push('<path class="mm-link" d="M'+cx+','+cy+' Q'+m[0].toFixed(1)+','+m[1].toFixed(1)+' '+tx.toFixed(1)+','+ty.toFixed(1)+'" stroke="'+color+'" stroke-width="2.2" opacity="0.55"/>');
+    var onLeftT=Math.cos(midDeg*Math.PI/180)<0,tl=pol(cx,cy,R1-15,midDeg);
+    var rotT=onLeftT?midDeg+180:midDeg,anchorT=onLeftT?"end":"start";
+    nodes.push('<g class="mm-node" data-tactic="'+t.id+'"><title>'+esc(t.id)+' — '+esc(t.name)+'</title>'+
+      '<circle cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>'+
+      '<text class="mm-tactic-lbl" x="'+tl[0].toFixed(1)+'" y="'+tl[1].toFixed(1)+'" font-size="12" fill="'+color+'" text-anchor="'+anchorT+'" dominant-baseline="middle" transform="rotate('+rotT.toFixed(1)+' '+tl[0].toFixed(1)+' '+tl[1].toFixed(1)+')">'+esc(t.id)+'</text></g>');
+    t.techniques.forEach(function(th,j){
+      var aDeg=(idx+j+0.5)*step-90,e=pol(cx,cy,Rt,aDeg),ex=e[0],ey=e[1];
+      links.push('<path class="mm-link" d="M'+tx.toFixed(1)+','+ty.toFixed(1)+' Q'+((tx+ex)/2).toFixed(1)+','+((ty+ey)/2).toFixed(1)+' '+ex.toFixed(1)+','+ey.toFixed(1)+'" stroke="'+color+'" stroke-width="1" opacity="0.35"/>');
+      var onLeft=Math.cos(aDeg*Math.PI/180)<0,l=pol(cx,cy,LBL,aDeg);
+      var rot=onLeft?aDeg+180:aDeg,anchor=onLeft?"end":"start";
+      var fill=th.ai?"#7a3cf0":"#fff",stroke=th.ai?"#7a3cf0":color;
+      nodes.push('<g class="mm-node" data-tech="'+th.id+'"><title>'+esc(th.id)+' — '+esc(th.name)+(th.ai?" (AI)":"")+'</title>'+
+        '<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4.5" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.6"/>'+
+        '<text x="'+l[0].toFixed(1)+'" y="'+l[1].toFixed(1)+'" font-size="9.5" fill="#33475a" text-anchor="'+anchor+'" dominant-baseline="middle" transform="rotate('+rot.toFixed(1)+' '+l[0].toFixed(1)+' '+l[1].toFixed(1)+')">'+esc(th.id)+(th.ai?" ●":"")+'</text></g>');
+    });
+    idx+=t.techniques.length;
+  });
+  var center='<g class="mm-node"><circle cx="'+cx+'" cy="'+cy+'" r="44" fill="#c8102e" stroke="#fff" stroke-width="3"/>'+
+    '<text class="mm-center-txt" x="'+cx+'" y="'+(cy-4)+'" font-size="22">HACT</text>'+
+    '<text class="mm-center-txt" x="'+cx+'" y="'+(cy+15)+'" font-size="10" opacity="0.85">13 · 57</text></g>';
+  $("#mm-svg").innerHTML='<svg viewBox="0 0 1060 1060" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HACT radial mind map">'+links.join("")+center+nodes.join("")+'</svg>';
+  $("#mm-svg").addEventListener("click",function(e){
+    var g=e.target.closest("[data-tech],[data-tactic]");if(!g)return;
+    if(g.getAttribute("data-tech"))openTechnique(g.getAttribute("data-tech"));
+    else if(g.getAttribute("data-tactic"))openTactic(g.getAttribute("data-tactic"));
+  });
+  var lg=$("#mm-legend");
+  TACTICS.forEach(function(t,ti){
+    var d=document.createElement("div");d.className="lg";
+    d.innerHTML='<span class="sw" style="background:'+tacticColor(ti)+'"></span><b>'+esc(t.id)+'</b> <span>'+esc(t.name)+'</span>';
+    d.onclick=function(){openTactic(t.id);};lg.appendChild(d);
+  });
+})();
+</script>
+</body>
+</html>
