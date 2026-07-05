@@ -15,23 +15,21 @@
   header.top a{color:#cfe0ee;text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid #2c5578;padding:6px 12px;border-radius:18px}
   header.top a:hover{background:#0a2135;color:#fff}
   header.top .hlinks{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  main{max-width:1200px;margin:0 auto;padding:20px}
+  main{max-width:1400px;margin:0 auto;padding:20px}
   h1{font-size:20px;border-left:4px solid var(--accent);padding-left:10px;margin:6px 0}
-  p.note{color:var(--muted);font-size:14px;max-width:900px;margin:0 0 14px}
+  p.note{color:var(--muted);font-size:14px;max-width:1000px;margin:0 0 14px}
   .mm-legend{display:flex;flex-wrap:wrap;gap:6px 12px;margin:0 0 14px}
   .mm-legend .lg{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;padding:3px 8px;border-radius:16px;border:1px solid var(--line);background:#fff}
   .mm-legend .lg:hover{background:var(--cell-hover)}
   .mm-legend .sw{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
   .mm-legend .lg span{color:var(--muted)}
-  .mm-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:radial-gradient(circle at 50% 46%,#fff 0%,#eef3f7 70%,#e4ecf2 100%);padding:8px}
-  #mm-svg{min-width:900px}
-  #mm-svg svg{display:block;margin:0 auto;width:100%;height:auto;max-width:1060px}
-  .mm-node{cursor:pointer}
-  .mm-node:hover text{font-weight:700}
-  .mm-node:hover circle{stroke:var(--navy);stroke-width:2.5}
-  .mm-link{fill:none}
-  .mm-center-txt{fill:#fff;font-weight:800;text-anchor:middle}
-  .mm-tactic-lbl{font-weight:700}
+  .mm-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#ffffff;padding:8px}
+  #mm-svg{min-width:1200px}
+  #mm-svg svg{display:block;margin:0 auto;width:100%;height:auto;max-width:1560px}
+  .mm-node text{transition:fill .12s}
+  .mm-node:hover .lf-txt{font-weight:700}
+  .mm-node:hover .lf-box{stroke:var(--navy);stroke-width:1.8}
+  .mm-node:hover .tn-box{filter:brightness(1.08)}
   .modal-back{position:fixed;inset:0;background:rgba(8,20,32,.55);display:none;z-index:100;padding:30px}
   .modal-back.open{display:flex;align-items:flex-start;justify-content:center}
   .modal{background:#fff;max-width:680px;width:100%;border-radius:12px;max-height:86vh;overflow:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
@@ -69,7 +67,7 @@
 </header>
 <main>
   <h1>Framework mind map</h1>
-  <p class="note">The whole HACT framework at a glance: the central model branches into its 13 tactics, and each tactic branches into its techniques. Click any node — or a legend entry — to open its detail. Techniques are shown by ID; AI-augmented techniques are marked in purple.</p>
+  <p class="note">The framework as a branching map, in the WiseMapping style: HACT at the centre, its 13 tactics as branches spreading left and right, and each tactic's techniques as leaves. Click any node — a leaf, a tactic pill, or a legend entry — to open its detail. AI-augmented techniques are marked in purple.</p>
   <div class="mm-legend" id="mm-legend"></div>
   <div class="mm-wrap"><div id="mm-svg"></div></div>
 </main>
@@ -81,14 +79,16 @@
   "use strict";
   var $=function(s){return document.querySelector(s);};
   function esc(s){return String(s).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[m];});}
+  function truncate(s,n){s=String(s);return s.length>n?s.slice(0,n-1)+"…":s;}
   function hue(i){return Math.round((i*360)/TACTICS.length);}
   function tacticColor(i){return "hsl("+hue(i)+",58%,42%)";}
-  function pol(cx,cy,r,deg){var a=deg*Math.PI/180;return[cx+r*Math.cos(a),cy+r*Math.sin(a)];}
+  var idxOf={};TACTICS.forEach(function(t,i){idxOf[t.id]=i;});
   var techByTactic={};
   TACTICS.forEach(function(t){t.techniques.forEach(function(th){techByTactic[th.id]={th:th,t:t};});});
   var aiById={};
   (typeof AI_THREATS!=="undefined"?AI_THREATS:[]).forEach(function(a){aiById[a.id]=a;});
 
+  // ---- modal ----
   var back=$("#modal-back"),modal=$("#modal");
   function open(h){modal.innerHTML=h;back.classList.add("open");modal.scrollTop=0;var c=modal.querySelector(".close");if(c)c.onclick=close;}
   function close(){back.classList.remove("open");}
@@ -121,40 +121,76 @@
     var lt=modal.querySelector("#toTactic");if(lt)lt.onclick=function(e){e.preventDefault();openTactic(t.id);};
   }
 
-  var tt=TACTICS.reduce(function(a,t){return a+t.techniques.length;},0);
-  var step=360/tt,cx=530,cy=530,R1=185,Rt=330,LBL=Rt+8,links=[],nodes=[],idx=0;
-  TACTICS.forEach(function(t,ti){
-    var color=tacticColor(ti);
-    var span=t.techniques.length*step,startDeg=idx*step-90,midDeg=startDeg+span/2;
-    var p=pol(cx,cy,R1,midDeg),tx=p[0],ty=p[1];
-    var m=pol(cx,cy,R1*0.55,midDeg);
-    links.push('<path class="mm-link" d="M'+cx+','+cy+' Q'+m[0].toFixed(1)+','+m[1].toFixed(1)+' '+tx.toFixed(1)+','+ty.toFixed(1)+'" stroke="'+color+'" stroke-width="2.2" opacity="0.55"/>');
-    var onLeftT=Math.cos(midDeg*Math.PI/180)<0,tl=pol(cx,cy,R1-15,midDeg);
-    var rotT=onLeftT?midDeg+180:midDeg,anchorT=onLeftT?"end":"start";
-    nodes.push('<g class="mm-node" data-tactic="'+t.id+'"><title>'+esc(t.id)+' — '+esc(t.name)+'</title>'+
-      '<circle cx="'+tx.toFixed(1)+'" cy="'+ty.toFixed(1)+'" r="8" fill="'+color+'" stroke="#fff" stroke-width="1.5"/>'+
-      '<text class="mm-tactic-lbl" x="'+tl[0].toFixed(1)+'" y="'+tl[1].toFixed(1)+'" font-size="12" fill="'+color+'" text-anchor="'+anchorT+'" dominant-baseline="middle" transform="rotate('+rotT.toFixed(1)+' '+tl[0].toFixed(1)+' '+tl[1].toFixed(1)+')">'+esc(t.id)+'</text></g>');
-    t.techniques.forEach(function(th,j){
-      var aDeg=(idx+j+0.5)*step-90,e=pol(cx,cy,Rt,aDeg),ex=e[0],ey=e[1];
-      links.push('<path class="mm-link" d="M'+tx.toFixed(1)+','+ty.toFixed(1)+' Q'+((tx+ex)/2).toFixed(1)+','+((ty+ey)/2).toFixed(1)+' '+ex.toFixed(1)+','+ey.toFixed(1)+'" stroke="'+color+'" stroke-width="1" opacity="0.35"/>');
-      var onLeft=Math.cos(aDeg*Math.PI/180)<0,l=pol(cx,cy,LBL,aDeg);
-      var rot=onLeft?aDeg+180:aDeg,anchor=onLeft?"end":"start";
-      var fill=th.ai?"#7a3cf0":"#fff",stroke=th.ai?"#7a3cf0":color;
-      nodes.push('<g class="mm-node" data-tech="'+th.id+'"><title>'+esc(th.id)+' — '+esc(th.name)+(th.ai?" (AI)":"")+'</title>'+
-        '<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="4.5" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.6"/>'+
-        '<text x="'+l[0].toFixed(1)+'" y="'+l[1].toFixed(1)+'" font-size="9.5" fill="#33475a" text-anchor="'+anchor+'" dominant-baseline="middle" transform="rotate('+rot.toFixed(1)+' '+l[0].toFixed(1)+' '+l[1].toFixed(1)+')">'+esc(th.id)+(th.ai?" ●":"")+'</text></g>');
+  // ---- horizontal balanced-tree layout (WiseMapping / DIMA style) ----
+  var leafH=28, tacticGap=22, marginTop=34, marginBottom=34;
+  var W=1560, cx=780, cNodeW=150, cNodeH=48;
+  var rightIdx=[0,1,2,3,4,5,6], leftIdx=[7,8,9,10,11,12];
+
+  function layoutSide(idxs){
+    var y=marginTop, items=[];
+    idxs.forEach(function(k){
+      var t=TACTICS[k]; if(!t) return;
+      var n=t.techniques.length||1;
+      var blockH=n*leafH;
+      var leaves=t.techniques.map(function(th,i){return {th:th,y:y+i*leafH+leafH/2};});
+      items.push({t:t,k:k,cy:y+blockH/2,leaves:leaves});
+      y+=blockH+tacticGap;
     });
-    idx+=t.techniques.length;
-  });
-  var center='<g class="mm-node"><circle cx="'+cx+'" cy="'+cy+'" r="44" fill="#c8102e" stroke="#fff" stroke-width="3"/>'+
-    '<text class="mm-center-txt" x="'+cx+'" y="'+(cy-4)+'" font-size="22">HACT</text>'+
-    '<text class="mm-center-txt" x="'+cx+'" y="'+(cy+15)+'" font-size="10" opacity="0.85">13 · 57</text></g>';
-  $("#mm-svg").innerHTML='<svg viewBox="0 0 1060 1060" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HACT radial mind map">'+links.join("")+center+nodes.join("")+'</svg>';
+    return {items:items,height:y-tacticGap+marginBottom};
+  }
+  var R=layoutSide(rightIdx), L=layoutSide(leftIdx);
+  var H=Math.max(R.height,L.height,cNodeH+marginTop+marginBottom);
+  var centerY=H/2, offR=(H-R.height)/2, offL=(H-L.height)/2;
+  function measure(label){return Math.min(258,26+label.length*6.1);}
+
+  var connectors=[], nodes=[];
+  function drawSide(side,off,dir){
+    side.items.forEach(function(it){
+      var color=tacticColor(it.k), ty=it.cy+off;
+      var tLabel=it.t.id+"  "+truncate(it.t.name,20);
+      var tnW=Math.min(240,32+tLabel.length*6.2), tnH=24, tnTop=ty-tnH/2;
+      var tnX = dir>0 ? cx+130 : cx-130-tnW;
+      var sX = dir>0 ? cx+cNodeW/2 : cx-cNodeW/2;
+      var eX = dir>0 ? tnX : tnX+tnW;
+      var dx=eX-sX;
+      connectors.push('<path d="M'+sX+','+centerY+' C'+(sX+dx*0.5).toFixed(1)+','+centerY+' '+(eX-dx*0.5).toFixed(1)+','+ty.toFixed(1)+' '+eX+','+ty.toFixed(1)+'" fill="none" stroke="'+color+'" stroke-width="2.4" opacity="0.7"/>');
+      nodes.push('<g class="mm-node" data-tactic="'+it.t.id+'"><title>'+esc(it.t.id)+' — '+esc(it.t.name)+'</title>'+
+        '<rect class="tn-box" x="'+tnX+'" y="'+tnTop+'" width="'+tnW+'" height="'+tnH+'" rx="12" fill="'+color+'"/>'+
+        '<text x="'+(tnX+tnW/2)+'" y="'+(ty+4).toFixed(1)+'" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">'+esc(tLabel)+'</text></g>');
+      var leafEdgeX = dir>0 ? cx+430 : cx-430;
+      it.leaves.forEach(function(lf){
+        var ly=lf.y+off, th=lf.th;
+        var label=th.id+"  "+truncate(th.name,30);
+        var w=measure(label), h=22, boxX = dir>0 ? leafEdgeX : leafEdgeX-w;
+        var accent = th.ai ? "#7a3cf0" : color;
+        var cs = dir>0 ? tnX+tnW : tnX;
+        var ce = dir>0 ? boxX : boxX+w;
+        var ddx=ce-cs;
+        connectors.push('<path d="M'+cs+','+ty.toFixed(1)+' C'+(cs+ddx*0.5).toFixed(1)+','+ty.toFixed(1)+' '+(ce-ddx*0.5).toFixed(1)+','+ly.toFixed(1)+' '+ce+','+ly.toFixed(1)+'" fill="none" stroke="'+color+'" stroke-width="1.2" opacity="0.45"/>');
+        nodes.push('<g class="mm-node" data-tech="'+th.id+'"><title>'+esc(th.id)+' — '+esc(th.name)+(th.ai?" (AI)":"")+'</title>'+
+          '<rect class="lf-box" x="'+boxX.toFixed(1)+'" y="'+(ly-h/2).toFixed(1)+'" width="'+w.toFixed(1)+'" height="'+h+'" rx="6" fill="#ffffff" stroke="#cfd9e2" stroke-width="1"/>'+
+          '<rect x="'+(dir>0?boxX:boxX+w-3).toFixed(1)+'" y="'+(ly-h/2).toFixed(1)+'" width="3" height="'+h+'" fill="'+accent+'"/>'+
+          '<text class="lf-txt" x="'+(dir>0?boxX+11:boxX+w-11).toFixed(1)+'" y="'+(ly+4).toFixed(1)+'" text-anchor="'+(dir>0?"start":"end")+'" font-size="11" fill="#1b2a38">'+esc(label)+(th.ai?" ●":"")+'</text></g>');
+      });
+    });
+  }
+  drawSide(R,offR,1);
+  drawSide(L,offL,-1);
+  var cnTop=centerY-cNodeH/2;
+  nodes.push('<g><rect x="'+(cx-cNodeW/2)+'" y="'+cnTop.toFixed(1)+'" width="'+cNodeW+'" height="'+cNodeH+'" rx="13" fill="#12395b" stroke="#c8102e" stroke-width="2.5"/>'+
+    '<text x="'+cx+'" y="'+(centerY-1).toFixed(1)+'" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">HACT</text>'+
+    '<text x="'+cx+'" y="'+(centerY+16).toFixed(1)+'" text-anchor="middle" font-size="10" fill="#9db6cc">13 · 57</text></g>');
+
+  $("#mm-svg").innerHTML='<svg viewBox="0 0 '+W+' '+Math.ceil(H)+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HACT framework mind map">'+connectors.join("")+nodes.join("")+'</svg>';
   $("#mm-svg").addEventListener("click",function(e){
     var g=e.target.closest("[data-tech],[data-tactic]");if(!g)return;
     if(g.getAttribute("data-tech"))openTechnique(g.getAttribute("data-tech"));
     else if(g.getAttribute("data-tactic"))openTactic(g.getAttribute("data-tactic"));
   });
+  $("#mm-svg").style.cursor="default";
+  $("#mm-svg").querySelectorAll("[data-tech],[data-tactic]").forEach(function(g){g.style.cursor="pointer";});
+
+  // ---- legend ----
   var lg=$("#mm-legend");
   TACTICS.forEach(function(t,ti){
     var d=document.createElement("div");d.className="lg";
