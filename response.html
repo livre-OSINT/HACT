@@ -4,6 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>HACT — Response & Defensive Playbooks</title>
+<link rel="canonical" href="https://livre-osint.github.io/HACT/response.html" />
+<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/response.html" />
+<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/response-fr.html" />
+<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/response.html" />
 <style>
   :root{--navy:#0b2338;--navy-2:#12395b;--accent:#c8102e;--bg:#f4f6f8;--ink:#1b2a38;--muted:#5a6b7b;--line:#dce3ea;--cell-hover:#d6e6f2;--ai:#7a3cf0;--good:#2e7d32;}
   *{box-sizing:border-box}
@@ -103,7 +107,6 @@
   var $=function(s){return document.querySelector(s);};
   function esc(s){return String(s).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[m];});}
 
-  // ---- 6-phase incident response plan ----
   var PHASES=[
     {t:"Detection",a:"Identify and document the observed IoH (dates, channels, wording, requests).",avoid:"Do NOT alert the suspect — tipping them off makes them adapt or vanish, and destroys evidence."},
     {t:"Containment",a:"Stop all exchanges with the suspect contact. Transmit no further information of any kind.",avoid:"Don't keep talking “just to be sure” — every extra message is more collection for the adversary."},
@@ -119,7 +122,6 @@
   }).join("");
   $("#legal").innerHTML='<b>Legal note (France / EU).</b> A personal-data breach resulting from a social-engineering attack must be notified to the CNIL within <b>72 hours</b> under the GDPR (Art. 33) when it poses a risk to individuals. Under NIS2, significant incidents must be notified to <b>ANSSI</b>. The “human factor” does not exempt an organization from these obligations.';
 
-  // ---- CM-Hxxx catalogue (from data.js) ----
   var rows='<tr><th>CM code</th><th>Tactic neutralized</th><th>Conduct to hold (countermeasures)</th></tr>';
   TACTICS.forEach(function(t,i){
     var code='CM-H'+String(i+1).padStart(3,'0');
@@ -127,7 +129,6 @@
   });
   $("#cm").innerHTML=rows;
 
-  // ---- checklists with localStorage ----
   var HYG=["Audit your social profiles: what information is public?","Configure privacy on Facebook, Instagram, LinkedIn","Strip EXIF metadata from your photos before posting","Check your exposure in breach databases (haveibeenpwned.com)","Use unique passwords and a password manager","Enable multi-factor authentication on all sensitive accounts","Don't publicly display your children, partner or home address","Clean up old, unused accounts"];
   var VIG=["Systematically verify the identity of unusual new contacts","Apply the “cooling-off” rule before any urgent reply","Never share an OTP code, even under an official pretext","Confirm unusual requests via an independent channel","Report any suspicious contact to the security team (if organizational)","Set up verification codes with relatives for voice emergencies","Beware of empathy that is too fast or too perfectly synchronized","Refuse imposed migration to private / unverifiable channels"];
   function store(k){try{return JSON.parse(localStorage.getItem(k)||"{}");}catch(e){return{};}}
@@ -150,7 +151,6 @@
   render("#hyg","#p-hyg",HYG,"hact_hyg");
   render("#vig","#p-vig",VIG,"hact_vig");
 
-  // ---- organizational 5 axes ----
   var AXES=[
     ["Training","Regular training of all employees, including managers and executives. Realistic scenarios and attack simulations."],
     ["Passwords","Audit weak passwords. Enforce multi-factor authentication on all sensitive systems."],
@@ -161,5 +161,6 @@
   $("#axes").innerHTML=AXES.map(function(a,i){return '<div class="axis"><b>'+(i+1)+'. '+esc(a[0])+'</b> — '+esc(a[1])+'</div>';}).join("");
 })();
 </script>
+<script src="lang.js"></script>
 </body>
 </html>

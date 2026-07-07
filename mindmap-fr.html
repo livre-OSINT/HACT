@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HACT — Framework Mind Map</title>
-<link rel="canonical" href="https://livre-osint.github.io/HACT/mindmap.html" />
+<title>HACT — Carte mentale du framework</title>
+<link rel="canonical" href="https://livre-osint.github.io/HACT/mindmap-fr.html" />
 <link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/mindmap.html" />
 <link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/mindmap-fr.html" />
 <link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/mindmap.html" />
@@ -60,18 +60,18 @@
 <body>
 <header class="top">
   <span class="logo">H<b>ACT</b></span>
-  <span class="sub">Framework mind map — 13 tactics · 57 techniques</span>
+  <span class="sub">Carte mentale du framework — 13 tactiques · 57 techniques</span>
   <nav class="hlinks">
-    <a href="index.html#matrix">Matrix</a>
-    <a href="why.html">Why HACT?</a>
-    <a href="ioh.html">IoH</a>
-    <a href="about.html">About</a>
-    <a href="index.html">← Back</a>
+    <a href="index.html#matrix">Matrice</a>
+    <a href="why-fr.html">Pourquoi HACT ?</a>
+    <a href="ioh-fr.html">IoH</a>
+    <a href="about-fr.html">À propos</a>
+    <a href="index-fr.html">← Retour</a>
   </nav>
 </header>
 <main>
-  <h1>Framework mind map</h1>
-  <p class="note">The framework as a branching map, in the WiseMapping style: HACT at the centre, its 13 tactics as branches spreading left and right, and each tactic's techniques as leaves. Click any node — a leaf, a tactic pill, or a legend entry — to open its detail. AI-augmented techniques are marked in purple.</p>
+  <h1>Carte mentale du framework</h1>
+  <p class="note">Le framework sous forme de carte arborescente, façon WiseMapping : HACT au centre, ses 13 tactiques en branches réparties à gauche et à droite, et les techniques de chaque tactique en feuilles. Cliquez sur un nœud — une feuille, une pastille de tactique ou une entrée de légende — pour ouvrir sa fiche. Les techniques dopées à l'IA sont marquées en violet. Les intitulés des tactiques et techniques sont donnés sous leur forme canonique en anglais.</p>
   <div class="mm-legend" id="mm-legend"></div>
   <div class="mm-wrap"><div id="mm-svg"></div></div>
 </main>
@@ -101,14 +101,14 @@
 
   function openTactic(id){
     var t=TACTICS.filter(function(x){return x.id===id;})[0];if(!t)return;
-    var h=head(t.id,esc(t.name),"MITRE ATT&CK equivalent  ↔  "+t.attack);
-    h+='<div class="m-body"><h4>Adversary objective</h4><p>'+esc(t.objective)+'</p>';
-    h+='<div class="chips"><span class="chip '+(t.severity==="HIGH"?"high":"medium")+'">'+esc(t.severity)+'</span><span class="chip ghost">Detection '+esc(t.detection)+'</span><span class="chip ghost">'+esc(t.frequency)+'</span></div>';
+    var h=head(t.id,esc(t.name),"Équivalent MITRE ATT&CK  ↔  "+t.attack);
+    h+='<div class="m-body"><h4>Objectif de l\'adversaire</h4><p>'+esc(t.objective)+'</p>';
+    h+='<div class="chips"><span class="chip '+(t.severity==="HIGH"?"high":"medium")+'">'+esc(t.severity)+'</span><span class="chip ghost">Détection '+esc(t.detection)+'</span><span class="chip ghost">'+esc(t.frequency)+'</span></div>';
     h+='<h4>Techniques ('+t.techniques.length+')</h4><ul class="tl">';
     t.techniques.forEach(function(th){h+='<li class="'+(th.ai?"ai":"")+'" data-tech="'+th.id+'"><span class="tid">'+esc(th.id)+(th.ai?" · AI":"")+'</span><b>'+esc(th.name)+'</b><span>'+esc(th.desc)+'</span></li>';});
     h+='</ul><h4>Indicators of HUMINT Operation (IoH)</h4><ul>';
     t.ioh.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
-    h+='</ul><h4>Priority countermeasures</h4><ul>';
+    h+='</ul><h4>Contre-mesures prioritaires</h4><ul>';
     t.countermeasures.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
     h+='</ul></div>';
     open(h);
@@ -116,10 +116,10 @@
   }
   function openTechnique(id){
     var rec=techByTactic[id];if(!rec)return;var th=rec.th,t=rec.t,ai=aiById[id];
-    var h=head(th.id,esc(th.name)+(th.ai?' <span class="chip" style="background:#7a3cf0">AI</span>':""),"Tactic: "+t.id+" · "+t.name+"  ↔  "+t.attack);
+    var h=head(th.id,esc(th.name)+(th.ai?' <span class="chip" style="background:#7a3cf0">AI</span>':""),"Tactique : "+t.id+" · "+t.name+"  ↔  "+t.attack);
     h+='<div class="m-body"><h4>Description</h4><p>'+esc(th.desc)+'</p>';
-    if(ai){h+='<h4>Threat summary</h4><p>'+esc(ai.summary)+'</p><h4>Countermeasure</h4><p>'+esc(ai.cm)+'</p>';}
-    h+='<p style="margin-top:12px"><a href="#" id="toTactic">→ View full tactic '+esc(t.id)+' ('+esc(t.name)+')</a></p></div>';
+    if(ai){h+='<h4>Résumé de la menace</h4><p>'+esc(ai.summary)+'</p><h4>Contre-mesure</h4><p>'+esc(ai.cm)+'</p>';}
+    h+='<p style="margin-top:12px"><a href="#" id="toTactic">→ Voir la tactique complète '+esc(t.id)+' ('+esc(t.name)+')</a></p></div>';
     open(h);
     var lt=modal.querySelector("#toTactic");if(lt)lt.onclick=function(e){e.preventDefault();openTactic(t.id);};
   }
@@ -183,7 +183,7 @@
     '<text x="'+cx+'" y="'+(centerY-1).toFixed(1)+'" text-anchor="middle" font-size="20" font-weight="800" fill="#fff">HACT</text>'+
     '<text x="'+cx+'" y="'+(centerY+16).toFixed(1)+'" text-anchor="middle" font-size="10" fill="#9db6cc">13 · 57</text></g>');
 
-  $("#mm-svg").innerHTML='<svg viewBox="0 0 '+W+' '+Math.ceil(H)+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HACT framework mind map">'+connectors.join("")+nodes.join("")+'</svg>';
+  $("#mm-svg").innerHTML='<svg viewBox="0 0 '+W+' '+Math.ceil(H)+'" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Carte mentale du framework HACT">'+connectors.join("")+nodes.join("")+'</svg>';
   $("#mm-svg").addEventListener("click",function(e){
     var g=e.target.closest("[data-tech],[data-tactic]");if(!g)return;
     if(g.getAttribute("data-tech"))openTechnique(g.getAttribute("data-tech"));

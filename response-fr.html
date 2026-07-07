@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HACT — Réponse & playbooks défensifs</title>
+<link rel="canonical" href="https://livre-osint.github.io/HACT/response-fr.html" />
+<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/response.html" />
+<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/response-fr.html" />
+<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/response.html" />
+<style>
+  :root{--navy:#0b2338;--navy-2:#12395b;--accent:#c8102e;--bg:#f4f6f8;--ink:#1b2a38;--muted:#5a6b7b;--line:#dce3ea;--cell-hover:#d6e6f2;--ai:#7a3cf0;--good:#2e7d32;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  header.top{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10}
+  header.top .logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+  header.top .logo b{color:#e94b5b}
+  header.top .sub{font-size:12.5px;color:#9db6cc}
+  header.top a{color:#cfe0ee;text-decoration:none;font-size:13.5px;font-weight:600;border:1px solid #2c5578;padding:6px 12px;border-radius:18px}
+  header.top a:hover{background:#0a2135;color:#fff}
+  header.top .hlinks{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  main{max-width:1100px;margin:0 auto;padding:20px}
+  h1{font-size:20px;border-left:4px solid var(--accent);padding-left:10px;margin:26px 0 6px}
+  h1:first-of-type{margin-top:6px}
+  p.note{color:var(--muted);font-size:14px;max-width:940px;margin:0 0 14px}
+  .phases{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+  .phase{background:#fff;border:1px solid var(--line);border-radius:10px;border-top:3px solid var(--accent);padding:14px 16px}
+  .phase .n{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:13px;align-items:center;justify-content:center;margin-right:8px}
+  .phase h3{display:flex;align-items:center;margin:0 0 8px;font-size:16px}
+  .phase h4{margin:10px 0 3px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+  .phase p{margin:0 0 6px;font-size:13.5px}
+  .phase .avoid{color:#8a0c1f;font-size:13px}
+  .phase .avoid b{color:var(--accent)}
+  .callout{background:#f2f8fc;border:1px solid #bcd8ec;border-left:4px solid var(--navy-2);border-radius:8px;padding:12px 14px;font-size:13.5px;margin:10px 0}
+  .callout b{color:var(--navy-2)}
+  table.data{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;font-size:13.5px;border:1px solid var(--line)}
+  table.data th{background:var(--navy);color:#fff;text-align:left;padding:9px 12px;font-size:12.5px}
+  table.data td{padding:9px 12px;border-top:1px solid var(--line);vertical-align:top}
+  table.data td.k{font-weight:700;color:var(--accent);white-space:nowrap}
+  table.data td.t{font-weight:600;color:var(--navy-2);white-space:nowrap}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:720px){.cols{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .card h3{margin:0 0 4px;font-size:15px}
+  .card .prog{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .chk{display:flex;align-items:flex-start;gap:9px;padding:5px 0;font-size:13.5px;cursor:pointer;border-top:1px solid #eef2f5}
+  .chk:first-of-type{border-top:none}
+  .chk input{margin-top:3px;width:16px;height:16px;flex:0 0 auto;accent-color:var(--good)}
+  .chk.done span{color:var(--muted);text-decoration:line-through}
+  .axis{background:#fff;border:1px solid var(--line);border-left:4px solid var(--navy-2);border-radius:8px;padding:11px 14px;margin:8px 0}
+  .axis b{color:var(--navy-2)}
+  .q{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px}
+  .q li{margin:7px 0;font-size:13.5px}
+  .q li b{color:var(--accent)}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="logo">H<b>ACT</b></span>
+  <span class="sub">Réponse &amp; playbooks défensifs</span>
+  <nav class="hlinks">
+    <a href="index.html#matrix">Matrice</a>
+    <a href="why-fr.html">Pourquoi HACT ?</a>
+    <a href="ioh-fr.html">IoH</a>
+    <a href="about-fr.html">À propos</a>
+    <a href="index-fr.html">← Retour</a>
+  </nav>
+</header>
+<main>
+
+  <h1>Plan de réponse à incident — que faire quand ça arrive</h1>
+  <p class="note">La détection et la prévention vous empêchent d'obtempérer ; ce plan indique quoi faire une fois qu'une opération est suspectée ou confirmée. Six phases, dans l'ordre — chacune avec son objectif, ses actions immédiates et l'erreur à éviter. Adapté de la procédure de réponse à incident du livre (chapitre 6.3).</p>
+  <div class="phases" id="phases"></div>
+  <div class="callout" id="legal"></div>
+
+  <h1>Catalogue des contre-mesures — CM-Hxxx par tactique</h1>
+  <p class="note">Le pendant défensif des 13 tactiques. Chaque jeu de contre-mesures (CM-H001 → CM-H013) correspond à la tactique qu'il neutralise. Contrairement à une CVE, une vulnérabilité humaine (HVE) ne se « corrige » jamais — elle se compense par la vigilance structurée ci-dessous. (Contenu des contre-mesures en anglais canonique.)</p>
+  <div style="overflow:auto"><table class="data" id="cm"></table></div>
+
+  <h1>Checklists individuelles</h1>
+  <p class="note">Gestes concrets du quotidien. Les cases sont enregistrées dans votre navigateur pour suivre votre progression dans le temps.</p>
+  <div class="cols">
+    <div class="card"><h3>Hygiène numérique — à revoir régulièrement</h3><div class="prog" id="p-hyg"></div><div id="hyg"></div></div>
+    <div class="card"><h3>Vigilance relationnelle — réflexes à construire</h3><div class="prog" id="p-vig"></div><div id="vig"></div></div>
+  </div>
+
+  <h1>Mesures organisationnelles — 5 axes prioritaires</h1>
+  <p class="note">Pour les équipes et les organisations. Sécurités humaine et technique sont synergiques, non substituables.</p>
+  <div id="axes"></div>
+
+  <h1>Bonus — les 4 questions que votre cerveau se pose au premier contact</h1>
+  <p class="note">Selon Christopher Hadnagy, lorsqu'une personne vous aborde pour la première fois, votre cerveau traite instinctivement quatre questions en quelques secondes — souvent inconsciemment. Un attaquant habile y répond avant que vous ne les posiez consciemment, par l'apparence, le ton, le prétexte et l'urgence, pour désactiver votre vigilance naturelle et vous maintenir en Système 1.</p>
+  <ul class="q">
+    <li><b>Qui êtes-vous ?</b> — votre identité, votre rôle, votre légitimité à me contacter.</li>
+    <li><b>Que voulez-vous ?</b> — l'intention derrière la démarche.</li>
+    <li><b>Êtes-vous une menace ?</b> — y a-t-il un danger, un risque, une raison de se méfier ?</li>
+    <li><b>Combien de temps cela va-t-il prendre ?</b> — puis-je me permettre cette interaction maintenant ?</li>
+  </ul>
+  <div class="callout"><b>Exercice de protection.</b> Quand un contact inhabituel vous aborde, posez-vous explicitement ces quatre questions avant de répondre. Le simple fait de les verbaliser intérieurement active le Système 2 et ralentit le processus — assez pour détecter la plupart des attaques peu sophistiquées.</div>
+
+</main>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $=function(s){return document.querySelector(s);};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(m){return({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"})[m];});}
+
+  var PHASES=[
+    {t:"Détection",a:"Identifier et documenter les IoH observés (dates, canaux, formulations, demandes).",avoid:"N'alertez PAS le suspect — le prévenir le fait s'adapter ou disparaître, et détruit les preuves."},
+    {t:"Confinement",a:"Cessez tout échange avec le contact suspect. Ne transmettez plus aucune information.",avoid:"Ne continuez pas à parler « pour en avoir le cœur net » — chaque message de plus est de la collecte pour l'adversaire."},
+    {t:"Évaluation",a:"Appliquez la règle des trois IoH. Évaluez sobrement ce qui a pu déjà être divulgué, et à qui.",avoid:"Ne minimisez pas — listez tout ce qui a pu être exposé, même si c'est gênant."},
+    {t:"Signalement",a:"Alertez votre RSSI / équipe sécurité. Documentez l'incident pour les autorités le cas échéant.",avoid:"Ne restez pas silencieux par honte — la fenêtre pour limiter l'impact est la plus large dans les premières heures."},
+    {t:"Remédiation",a:"Changez les mots de passe, révisez et révoquez les accès exposés, et prévenez les cibles secondaires potentielles de votre réseau.",avoid:"Ne vous arrêtez pas à votre compte — un contact compromis est un tremplin vers d'autres (mouvement latéral)."},
+    {t:"Apprentissage",a:"Menez un débrief sans blâme, mettez à jour les procédures et ajoutez une formation ciblée là où la faille est apparue.",avoid:"Ne punissez pas la personne qui a signalé — le blâme tue la culture du signalement dont vous dépendez."}
+  ];
+  $("#phases").innerHTML=PHASES.map(function(p,i){
+    return '<div class="phase"><h3><span class="n">'+(i+1)+'</span>'+esc(p.t)+'</h3>'+
+      '<h4>Actions immédiates</h4><p>'+esc(p.a)+'</p>'+
+      '<h4>À éviter</h4><p class="avoid"><b>✕</b> '+esc(p.avoid)+'</p></div>';
+  }).join("");
+  $("#legal").innerHTML='<b>Note juridique (France / UE).</b> Une violation de données à caractère personnel résultant d\'une attaque d\'ingénierie sociale doit être notifiée à la CNIL dans les <b>72 heures</b> au titre du RGPD (art. 33) lorsqu\'elle présente un risque pour les personnes. Au titre de NIS2, les incidents significatifs doivent être notifiés à l\'<b>ANSSI</b>. Le « facteur humain » n\'exonère pas une organisation de ces obligations.';
+
+  var rows='<tr><th>Code CM</th><th>Tactique neutralisée</th><th>Conduite à tenir (contre-mesures)</th></tr>';
+  TACTICS.forEach(function(t,i){
+    var code='CM-H'+String(i+1).padStart(3,'0');
+    rows+='<tr><td class="k">'+code+'</td><td class="t">'+esc(t.id)+' — '+esc(t.name)+'</td><td>'+t.countermeasures.map(esc).join(' ')+'</td></tr>';
+  });
+  $("#cm").innerHTML=rows;
+
+  var HYG=["Auditez vos profils sociaux : quelles informations sont publiques ?","Paramétrez la confidentialité sur Facebook, Instagram, LinkedIn","Nettoyez les métadonnées EXIF de vos photos avant publication","Vérifiez votre exposition dans les bases de fuites (haveibeenpwned.com)","Utilisez des mots de passe uniques et un gestionnaire de mots de passe","Activez l'authentification multifacteur sur tous les comptes sensibles","N'exposez pas publiquement vos enfants, votre conjoint ou votre adresse","Supprimez les vieux comptes inutilisés"];
+  var VIG=["Vérifiez systématiquement l'identité des nouveaux contacts inhabituels","Appliquez la règle du « temps mort » avant toute réponse urgente","Ne partagez jamais un code OTP, même sous prétexte officiel","Confirmez les demandes inhabituelles via un canal indépendant","Signalez tout contact suspect à l'équipe sécurité (en contexte organisationnel)","Convenez de codes de vérification avec vos proches pour les urgences vocales","Méfiez-vous d'une empathie trop rapide ou trop parfaitement synchronisée","Refusez toute migration imposée vers des canaux privés / non vérifiables"];
+  function store(k){try{return JSON.parse(localStorage.getItem(k)||"{}");}catch(e){return{};}}
+  function save(k,o){try{localStorage.setItem(k,JSON.stringify(o));}catch(e){}}
+  function render(hostId,progId,items,key){
+    var st=store(key),host=$(hostId);
+    host.innerHTML=items.map(function(it,i){
+      var on=!!st[i];
+      return '<label class="chk'+(on?' done':'')+'" data-i="'+i+'"><input type="checkbox"'+(on?' checked':'')+'/><span>'+esc(it)+'</span></label>';
+    }).join("");
+    function upd(){var n=Object.keys(store(key)).filter(function(k){return store(key)[k];}).length;$(progId).textContent=n+" / "+items.length+" faits";}
+    host.querySelectorAll(".chk").forEach(function(lb){
+      lb.addEventListener("change",function(){
+        var i=lb.getAttribute("data-i"),o=store(key);o[i]=lb.querySelector("input").checked;save(key,o);
+        lb.classList.toggle("done",o[i]);upd();
+      });
+    });
+    upd();
+  }
+  render("#hyg","#p-hyg",HYG,"hact_hyg");
+  render("#vig","#p-vig",VIG,"hact_vig");
+
+  var AXES=[
+    ["Formation","Formation régulière de tous les employés, dirigeants compris. Scénarios réalistes et simulations d'attaque."],
+    ["Mots de passe","Auditez les mots de passe faibles. Imposez l'authentification multifacteur sur tous les systèmes sensibles."],
+    ["Filtrage","Anti-spam / anti-phishing à détection comportementale. Marquage automatique des e-mails externes (tag EXTERNAL)."],
+    ["Politiques","Procédures claires pour les demandes financières urgentes. Double validation obligatoire pour les virements au-delà d'un seuil défini."],
+    ["Sécurité technique","EDR et SIEM pour compléter — non remplacer — la défense humaine. Sécurités humaine et technique sont synergiques."]
+  ];
+  $("#axes").innerHTML=AXES.map(function(a,i){return '<div class="axis"><b>'+(i+1)+'. '+esc(a[0])+'</b> — '+esc(a[1])+'</div>';}).join("");
+})();
+</script>
+<script src="lang.js"></script>
+</body>
+</html>

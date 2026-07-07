@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HACT — Flowchart: Attack Path & Defensive Decision Tree</title>
-<link rel="canonical" href="https://livre-osint.github.io/HACT/flowchart.html" />
+<title>HACT — Logigramme : chaîne d'attaque & arbre de décision défensif</title>
+<link rel="canonical" href="https://livre-osint.github.io/HACT/flowchart-fr.html" />
 <link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/flowchart.html" />
 <link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/flowchart-fr.html" />
 <link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/flowchart.html" />
@@ -51,34 +51,34 @@
 <body>
 <header class="top">
   <span class="logo">H<b>ACT</b></span>
-  <span class="sub">Flowchart — attack path &amp; defensive decision tree</span>
+  <span class="sub">Logigramme — chaîne d'attaque &amp; arbre de décision défensif</span>
   <nav class="hlinks">
-    <a href="index.html#matrix">Matrix</a>
-    <a href="why.html">Why HACT?</a>
-    <a href="ioh.html">IoH</a>
-    <a href="about.html">About</a>
-    <a href="index.html">← Back</a>
+    <a href="index.html#matrix">Matrice</a>
+    <a href="why-fr.html">Pourquoi HACT ?</a>
+    <a href="ioh-fr.html">IoH</a>
+    <a href="about-fr.html">À propos</a>
+    <a href="index-fr.html">← Retour</a>
   </nav>
 </header>
 <main>
-  <h1>Attack path — the adversary's kill chain</h1>
-  <p class="note">The 13 HACT tactics laid out as the attacker's operational sequence, from reconnaissance to impact. This is the surface an operation traverses. Click any step to open its detail. A <b>hunting</b> (short) operation may short-circuit from TA-H001 straight to exploitation; a <b>farming</b> (long) operation runs the full chain over weeks.</p>
+  <h1>Chaîne d'attaque — la kill chain de l'adversaire</h1>
+  <p class="note">Les 13 tactiques HACT disposées selon la séquence opérationnelle de l'attaquant, de la reconnaissance à l'impact. C'est la surface qu'une opération traverse. Cliquez sur une étape pour ouvrir sa fiche. Une opération <b>hunting</b> (courte) peut court-circuiter de TA-H001 directement à l'exploitation ; une opération <b>farming</b> (longue) déroule la chaîne complète sur plusieurs semaines. (Intitulés des tactiques en anglais canonique.)</p>
   <div class="wrap">
-    <div class="phase">Preparation &amp; access</div>
+    <div class="phase">Préparation &amp; accès</div>
     <div class="chain" id="chain-a"></div>
-    <div class="phase">Relationship &amp; exploitation</div>
+    <div class="phase">Relation &amp; exploitation</div>
     <div class="chain" id="chain-b"></div>
-    <div class="phase">Expansion, collection &amp; impact</div>
+    <div class="phase">Expansion, collecte &amp; impact</div>
     <div class="chain" id="chain-c"></div>
     <div class="cap">
-      <span><b>Hunting</b> — one-shot, minimal contact (e.g. phishing): TA-H001 → TA-H006.</span>
-      <span><b>Farming</b> — weeks/months of rapport before exploitation: full 13-tactic chain.</span>
-      <span><b>Debrief</b> — after extraction the attacker returns the target to a positive emotional state to erase suspicion.</span>
+      <span><b>Hunting</b> — coup unique, contact minimal (ex. phishing) : TA-H001 → TA-H006.</span>
+      <span><b>Farming</b> — semaines/mois de rapport avant exploitation : chaîne complète des 13 tactiques.</span>
+      <span><b>Debrief</b> — après extraction, l'attaquant ramène la cible à un état émotionnel positif pour effacer les soupçons.</span>
     </div>
   </div>
 
-  <h1>Defensive decision tree — the 60-second emergency memento</h1>
-  <p class="note">A logigramme condensing the whole HACT defensive doctrine into a decision that can be run in under a minute when facing any unusual request. Built from the book's five reflexes: urgency is a signal, an unusual channel is what must be verified, always call back on the known line, two indicators mean suspend, and report even if you already complied.</p>
+  <h1>Arbre de décision défensif — le mémo d'urgence en 60 secondes</h1>
+  <p class="note">Un logigramme qui condense toute la doctrine défensive HACT en une décision exécutable en moins d'une minute face à une sollicitation inhabituelle. Bâti sur les cinq réflexes du livre : l'urgence est un signal, un canal inhabituel est ce qu'il faut vérifier, rappelez toujours sur la ligne connue, deux indicateurs imposent la suspension, et signalez même si vous avez déjà obtempéré.</p>
   <div class="wrap" id="svgwrap"></div>
 </main>
 <div class="modal-back" id="modal-back"><div class="modal" id="modal"></div></div>
@@ -101,10 +101,10 @@
   document.addEventListener("keydown",function(e){if(e.key==="Escape")close();});
   function openTactic(id){
     var t=TACTICS.filter(function(x){return x.id===id;})[0];if(!t)return;
-    var h='<div class="m-head"><span class="close">&times;</span><span class="mid">'+esc(t.id)+'</span><h3>'+esc(t.name)+'</h3><span class="eq">MITRE ATT&CK equivalent  ↔  '+esc(t.attack)+'</span></div>';
-    h+='<div class="m-body"><h4>Adversary objective</h4><p>'+esc(t.objective)+'</p><h4>Techniques ('+t.techniques.length+')</h4><ul>';
+    var h='<div class="m-head"><span class="close">&times;</span><span class="mid">'+esc(t.id)+'</span><h3>'+esc(t.name)+'</h3><span class="eq">Équivalent MITRE ATT&CK  ↔  '+esc(t.attack)+'</span></div>';
+    h+='<div class="m-body"><h4>Objectif de l\'adversaire</h4><p>'+esc(t.objective)+'</p><h4>Techniques ('+t.techniques.length+')</h4><ul>';
     t.techniques.forEach(function(th){h+='<li><b>'+esc(th.id)+'</b> — '+esc(th.name)+(th.ai?' <span style="color:#7a3cf0">(AI)</span>':'')+'</li>';});
-    h+='</ul><h4>Priority countermeasures</h4><ul>';
+    h+='</ul><h4>Contre-mesures prioritaires</h4><ul>';
     t.countermeasures.forEach(function(x){h+='<li>'+esc(x)+'</li>';});
     h+='</ul></div>';
     open(h);
@@ -123,31 +123,31 @@
 
   var COL={start:["#12395b","#12395b","#fff"],proc:["#eef3f7","#b9c9d6","#1b2a38"],dec:["#fff7e6","#e0a100","#6b4e00"],act:["#f2f8fc","#7fb0d4","#12395b"],good:["#e7f6ec","#2e7d32","#1e5b25"],bad:["#fdeef0","#c8102e","#8a0c1f"],note:["#f7f9fb","#dce3ea","#33475a"]};
   var nodes={
-    start:{cx:480,y:18,w:360,h:52,type:"start",t:["Unusual / unsolicited request","(call · email · DM · video call)"]},
-    proc1:{cx:480,y:102,w:470,h:78,type:"proc",t:["Spot the IoH signals:","urgency · incoming / unknown channel · demand for secrecy","offer too good or too fast · emotional pressure · “don’t verify”"]},
-    dec1:{cx:480,y:214,w:400,h:60,type:"dec",t:["Is the request sensitive?","(money · credentials · access · confidential data)"]},
-    ok0:{cx:840,y:219,w:200,h:50,type:"good",t:["No →","Proceed normally"]},
-    act1:{cx:480,y:318,w:490,h:92,type:"act",t:["Made by phone or video?","Reply: “I’ll call you back on your usual, known line.”","Never act on the incoming channel.","(neutralizes voice-clone TH-2006 & deepfake TH-3006)"]},
-    dec2:{cx:480,y:452,w:300,h:50,type:"dec",t:["At least 2 IoH present?"]},
-    susp:{cx:820,y:445,w:250,h:74,type:"bad",t:["Yes → SUSPEND","Take NO action.","No exception for hierarchy or urgency."]},
-    act2:{cx:480,y:552,w:430,h:50,type:"act",t:["Verify via an independent, previously known channel."]},
-    dec3:{cx:480,y:644,w:400,h:52,type:"dec",t:["Identity & request confirmed independently?"]},
-    ok1:{cx:150,y:646,w:200,h:50,type:"good",t:["Yes →","Proceed."]},
-    bad1:{cx:480,y:742,w:430,h:60,type:"bad",t:["No → Do NOT act.","Report to your CISO / security team."]},
-    foot:{cx:480,y:838,w:780,h:70,type:"note",t:["Already acted, then doubt arose? Alert your CISO immediately.","The window to limit impact is widest in the first hours —","reporting a mistake costs far less than silence."]}
+    start:{cx:480,y:18,w:400,h:52,type:"start",t:["Demande inhabituelle / non sollicitée","(appel · e-mail · DM · appel vidéo)"]},
+    proc1:{cx:480,y:102,w:560,h:78,type:"proc",t:["Repérer les signaux IoH :","urgence · canal entrant / inconnu · exigence de secret","offre trop belle ou trop rapide · pression émotionnelle · « ne vérifie pas »"]},
+    dec1:{cx:480,y:214,w:460,h:60,type:"dec",t:["La demande est-elle sensible ?","(argent · identifiants · accès · données confidentielles)"]},
+    ok0:{cx:850,y:219,w:200,h:50,type:"good",t:["Non →","Traiter normalement"]},
+    act1:{cx:480,y:318,w:600,h:92,type:"act",t:["Par téléphone ou vidéo ?","Répondez : « Je vous rappelle sur votre ligne connue habituelle. »","N'agissez jamais sur le canal entrant.","(neutralise le clone vocal TH-2006 & le deepfake TH-3006)"]},
+    dec2:{cx:480,y:452,w:340,h:50,type:"dec",t:["Au moins 2 IoH présents ?"]},
+    susp:{cx:840,y:445,w:280,h:74,type:"bad",t:["Oui → SUSPENDRE","Ne faites AUCUNE action.","Aucune exception pour hiérarchie ou urgence."]},
+    act2:{cx:480,y:552,w:520,h:50,type:"act",t:["Vérifier via un canal indépendant, connu au préalable."]},
+    dec3:{cx:480,y:644,w:470,h:52,type:"dec",t:["Identité & demande confirmées indépendamment ?"]},
+    ok1:{cx:150,y:646,w:200,h:50,type:"good",t:["Oui →","Procéder."]},
+    bad1:{cx:480,y:742,w:470,h:60,type:"bad",t:["Non → N'AGISSEZ PAS.","Signalez à votre RSSI / équipe sécurité."]},
+    foot:{cx:480,y:838,w:860,h:70,type:"note",t:["Déjà agi, puis un doute ? Alertez immédiatement votre RSSI.","La fenêtre pour limiter l'impact est la plus large dans les premières heures —","signaler une erreur coûte bien moins cher que le silence."]}
   };
   var edges=[
     {p:[[480,70],[480,102]]},
     {p:[[480,180],[480,214]]},
-    {p:[[680,244],[740,244]]},
-    {p:[[480,274],[480,318]],l:"Yes",lx:492,ly:298},
+    {p:[[710,244],[750,244]]},
+    {p:[[480,274],[480,318]],l:"Oui",lx:492,ly:298},
     {p:[[480,410],[480,452]]},
-    {p:[[630,477],[695,477]],l:"Yes",lx:648,ly:469},
-    {p:[[480,502],[480,552]],l:"No",lx:492,ly:530},
-    {p:[[820,519],[820,670],[680,670]]},
+    {p:[[650,477],[700,477]],l:"Oui",lx:665,ly:469},
+    {p:[[480,502],[480,552]],l:"Non",lx:492,ly:530},
+    {p:[[840,519],[840,670],[715,670]]},
     {p:[[480,602],[480,644]]},
-    {p:[[280,670],[250,670]],l:"Yes",lx:258,ly:660},
-    {p:[[480,696],[480,742]],l:"No",lx:492,ly:722},
+    {p:[[245,670],[250,670]],l:"Oui",lx:258,ly:660},
+    {p:[[480,696],[480,742]],l:"Non",lx:492,ly:722},
     {p:[[480,802],[480,838]]}
   ];
   function nodeSvg(n){
@@ -162,7 +162,7 @@
     if(e.l)s+='<text x="'+e.lx+'" y="'+e.ly+'" font-size="11" font-weight="700" fill="#5a6b7b">'+esc(e.l)+'</text>';
     return s;
   }
-  var svg='<svg viewBox="0 0 960 926" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="HACT defensive decision tree">'+
+  var svg='<svg viewBox="0 0 980 926" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Arbre de décision défensif HACT">'+
     '<defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8397a8"/></marker></defs>';
   edges.forEach(function(e){svg+=edgeSvg(e);});
   Object.keys(nodes).forEach(function(k){svg+=nodeSvg(nodes[k]);});
