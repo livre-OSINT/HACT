@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>À propos de HACT — histoire, versioning, licence et citation</title>
+<meta name="description" content="À propos du framework HACT : origine, choix de conception, version actuelle (v2, 2026), statut de proposition ouverte mono-auteur, comment contribuer, licence CC BY 4.0 et comment le citer." />
+<link rel="canonical" href="https://livre-osint.github.io/HACT/about-fr.html" />
+<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/about.html" />
+<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/about-fr.html" />
+<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/about.html" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.prose{max-width:840px;font-size:15.5px;color:var(--ink);line-height:1.72}
+.prose p{margin:0 0 15px}
+.langsw{border:1px solid currentColor;border-radius:12px;padding:2px 9px;font-weight:700;font-size:12.5px}
+.cite{background:#0a1c2c;color:#dbe8f2;border-radius:8px;padding:14px 16px;font-size:13px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;line-height:1.6;max-width:840px;overflow-x:auto}
+.qa{max-width:840px}
+.qa h3{font-size:14.5px;margin:16px 0 3px;color:var(--navy-2)}
+.qa p{margin:0 0 6px;font-size:14.5px;color:var(--ink);line-height:1.65}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="nav">
+    <div class="brand">
+      <a href="index-fr.html" style="color:inherit;text-decoration:none"><span class="logo">H<b>ACT</b></span></a>
+      <span class="sub">Framework</span>
+    </div>
+    <nav class="links">
+      <a href="index.html#matrix">Matrice</a>
+      <a href="why-fr.html">Pourquoi HACT ?</a>
+      <a href="ioh-fr.html">IoH</a>
+      <a href="mindmap.html">Carte mentale</a>
+      <a href="flowchart.html">Logigramme</a>
+      <a href="response.html">Réponse</a>
+      <a href="about-fr.html">À propos</a>
+      <a href="about.html" class="langsw" hreflang="en" title="English version">EN</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <h1>À propos de H<b>ACT</b></h1>
+    <p class="lead">HACT — Human Adversarial Cognitive Tactics — est un framework ouvert qui cartographie l'ingénierie sociale comme MITRE ATT&amp;CK cartographie les attaques techniques. Cette page est honnête sur ce qu'est HACT aujourd'hui : une proposition structurée, publiée ouvertement, portée par un seul auteur.</p>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <h2 class="sec">Origine</h2>
+    <div class="prose">
+      <p>HACT est né d'un livre : <em>HACT — Human Adversarial Cognitive Tactics : Lutter contre l'ingénierie sociale</em>, écrit par Aurélien T. En travaillant la matière, une absence est devenue évidente — le domaine disposait de taxonomies techniques riches, mais de rien qui permette aux défenseurs de nommer et cartographier une manipulation comme ils nomment et cartographient une intrusion. HACT est la tentative de combler cet espace, et ce site en est la forme vivante et opérationnelle.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Choix de conception</h2>
+    <div class="qa">
+      <h3>Pourquoi une matrice ?</h3>
+      <p>Parce que les défenseurs pensent déjà en matrices. Emprunter la grille d'ATT&amp;CK (tactiques en colonnes, techniques en cellules) rend HACT immédiatement lisible pour quiconque a utilisé un référentiel de menace — et transforme un sujet diffus en quelque chose que l'on peut désigner du doigt.</p>
+      <h3>Pourquoi treize tactiques ?</h3>
+      <p>Ce sont les objectifs récurrents qu'un opérateur poursuit contre une personne — de la reconnaissance et du prétexte jusqu'à la pression, l'extraction et la couverture. Treize n'est pas un nombre magique ; c'est l'ensemble qui couvrait les comportements documentés sans fondre des intentions distinctes dans une même case.</p>
+      <h3>Pourquoi les IoH ?</h3>
+      <p>Parce que la détection avait besoin d'une unité. L'Indicator of HUMINT Operation est l'écho humain de l'IoC — faible, contextuel, et significatif seulement en convergence. C'est sans doute l'apport le plus original de HACT. <a href="ioh-fr.html">Lire la page IoH.</a></p>
+      <h3>Pourquoi ce nom ?</h3>
+      <p>Human Adversarial Cognitive Tactics énonce l'objet clairement : des tactiques adverses qui opèrent sur la cognition humaine. Le sigle HACT le rend court et « framework ».</p>
+      <h3>Pourquoi maintenant ?</h3>
+      <p>Parce que l'IA générative a industrialisé l'ingénierie sociale — voix deepfake, visages clonés, prétextes personnalisés en masse. La surface d'attaque humaine s'étend plus vite que le vocabulaire dont les défenseurs disposent pour la décrire.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Statut &amp; versioning</h2>
+    <div class="prose">
+      <p>HACT est une <b>proposition ouverte, portée aujourd'hui par un seul auteur</b>. Elle est publiée ouvertement pour que les praticiens l'utilisent, l'éprouvent et la contestent — non pour laisser croire à une institution ou une communauté qui n'existent pas encore. Cette honnêteté est délibérée : un framework sur la manipulation ne doit pas se survendre.</p>
+    </div>
+    <table class="data">
+      <tr><th>Version</th><th>Date</th><th>Contenu</th></tr>
+      <tr><td class="k">v2 (actuelle)</td><td>2026</td><td>13 tactiques, 57 techniques, HVE, IoH et règle des trois, catalogue de contre-mesures, menaces dopées à l'IA, cas documentés, correspondance réglementaire (RGPD / NIS2) et ce site interactif.</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="sec">Contribuer</h2>
+    <div class="prose">
+      <p>Les retours sont réellement bienvenus — corrections, technique manquante, cas réel, IoH plus fin. Les contributions les plus utiles aujourd'hui sont celles qui challengent la taxonomie elle-même. Écrivez à l'auteur à <a href="mailto:Livre_OSINT@proton.me">Livre_OSINT@proton.me</a> ou via le <a href="https://github.com/livre-OSINT/HACT" target="_blank" rel="noopener">dépôt GitHub</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Licence &amp; usage</h2>
+    <div class="prose">
+      <p>Le <b>framework HACT et le contenu de ce site</b> sont placés sous licence <a href="LICENSE">Creative Commons Attribution 4.0 International (CC BY 4.0)</a> : vous pouvez les partager et les adapter, y compris à des fins commerciales, à condition de créditer « Aurélien T. — framework HACT » avec un lien vers ce site et d'indiquer toute modification. Le <b>livre</b> <em>HACT — Human Adversarial Cognitive Tactics : Lutter contre l'ingénierie sociale</em> n'est pas couvert par cette licence et reste &copy; Aurélien T., tous droits réservés.</p>
+      <p>Ce contenu est publié à des fins strictement pédagogiques et défensives ; l'auteur décline toute responsabilité quant à l'usage qui en est fait. HACT est un travail indépendant, ni affilié à, ni approuvé par The MITRE Corporation.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Comment citer</h2>
+    <div class="cite">Aurélien T. (2026). <i>HACT — Human Adversarial Cognitive Tactics : un framework pour cartographier l'ingénierie sociale</i> (v2). https://livre-osint.github.io/HACT/</div>
+    <p class="sec-note" style="margin-top:8px">Un identifiant d'archivage pérenne (DOI) pourra être ajouté ultérieurement via un dépôt tel que Zenodo ; en attendant, merci de citer la version et l'URL ci-dessus.</p>
+  </section>
+
+  <section>
+    <h2 class="sec">Liens</h2>
+    <div class="prose">
+      <p><a href="https://github.com/livre-OSINT/HACT" target="_blank" rel="noopener">Dépôt GitHub</a> &nbsp;·&nbsp; <a href="LICENSE">Licence (CC BY 4.0)</a> &nbsp;·&nbsp; <a href="index.html#matrix">La matrice</a> &nbsp;·&nbsp; <a href="why-fr.html">Pourquoi HACT ?</a> &nbsp;·&nbsp; <a href="ioh-fr.html">IoH</a> &nbsp;·&nbsp; Contact : <a href="mailto:Livre_OSINT@proton.me">Livre_OSINT@proton.me</a></p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="fin">
+    <strong>HACT — Human Adversarial Cognitive Tactics</strong> · Un framework d'Aurélien T. · Usage pédagogique et défensif uniquement.<br />
+    Framework et contenu du site sous licence <a href="LICENSE">CC BY 4.0</a> · le livre reste © l'auteur.
+    <p class="tm">MITRE ATT&amp;CK® et ATT&amp;CK® sont des marques déposées de The MITRE Corporation. Ce travail et le framework HACT qu'il décrit ne sont ni affiliés à, ni approuvés, ni parrainés par The MITRE Corporation. Publié à des fins strictement pédagogiques et défensives ; l'auteur décline toute responsabilité quant à l'usage qui en est fait.</p>
+  </div>
+</footer>
+
+</body>
+</html>

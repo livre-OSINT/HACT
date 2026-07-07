@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pourquoi HACT ? — Le framework pour cartographier les attaques humaines</title>
+<meta name="description" content="Pourquoi le framework HACT existe : la cybersécurité a appris à détecter la compromission technique ; HACT donne aux défenseurs une taxonomie partagée pour cartographier l'ingénierie sociale et la manipulation — tactiques, techniques et indicateurs (IoH)." />
+<link rel="canonical" href="https://livre-osint.github.io/HACT/why-fr.html" />
+<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/why.html" />
+<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/why-fr.html" />
+<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/why.html" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.prose{max-width:840px;font-size:15.5px;color:var(--ink);line-height:1.72}
+.prose p{margin:0 0 15px}
+.langsw{border:1px solid currentColor;border-radius:12px;padding:2px 9px;font-weight:700;font-size:12.5px}
+.slogan{background:linear-gradient(180deg,var(--navy-2),#1c4a72);color:#fff;border-radius:12px;padding:24px 26px;font-size:20px;line-height:1.5;font-weight:600;max-width:920px;margin:0 0 6px}
+.slogan span{color:var(--accent-2)}
+.family{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:10px 0 4px}
+.family .f{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:13px 15px}
+.family .f b{display:block;font-size:14px;margin-bottom:3px}
+.family .f span{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="nav">
+    <div class="brand">
+      <a href="index-fr.html" style="color:inherit;text-decoration:none"><span class="logo">H<b>ACT</b></span></a>
+      <span class="sub">Framework</span>
+    </div>
+    <nav class="links">
+      <a href="index.html#matrix">Matrice</a>
+      <a href="why-fr.html">Pourquoi HACT ?</a>
+      <a href="ioh-fr.html">IoH</a>
+      <a href="mindmap.html">Carte mentale</a>
+      <a href="flowchart.html">Logigramme</a>
+      <a href="response.html">Réponse</a>
+      <a href="about-fr.html">À propos</a>
+      <a href="why.html" class="langsw" hreflang="en" title="English version">EN</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <h1>Pourquoi H<b>ACT</b> ?</h1>
+    <p class="lead">HACT (Human Adversarial Cognitive Tactics) est un framework ouvert, façon ATT&amp;CK, pour cartographier les opérations d'ingénierie sociale, nommer les tactiques de manipulation et détecter les indicateurs humains qu'elles laissent derrière elles (IoH).</p>
+    <p class="meta">Un framework d'Aurélien T. · Usage pédagogique et défensif uniquement.</p>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <div class="slogan">La cybersécurité sait depuis longtemps détecter la compromission <span>technique</span>.<br />Elle apprend aujourd'hui à détecter la compromission <span>humaine</span>. C'est la mission de HACT.</div>
+  </section>
+
+  <section>
+    <h2 class="sec">Le vide que comble HACT</h2>
+    <div class="prose">
+      <p>Pendant des années, les défenseurs se sont dotés de référentiels pour décrire les attaques contre les machines. MITRE ATT&amp;CK, la Cyber Kill Chain et le Diamond Model leur ont donné un langage commun : toute intrusion technique peut être nommée, cartographiée et communiquée de la même manière d'une équipe à l'autre.</p>
+      <p>L'ingénierie sociale, elle, n'a jamais eu de taxonomie équivalente. La manipulation était documentée au cas par cas, sous forme de récits, sans vocabulaire structuré partagé entre défenseurs. La surface d'attaque la plus exploitée — la décision humaine — restait essentiellement non cartographiée.</p>
+      <p>HACT propose une approche structurée pour combler ce vide. Une matrice à deux niveaux (tactiques &rarr; techniques) nomme les manœuvres cognitives de l'adversaire, les vulnérabilités humaines qu'il exploite (HVE), les signaux observables qu'il laisse (IoH) et les contre-mesures qui y répondent. L'objectif n'est pas une nouvelle théorie de la persuasion, mais un référentiel opérationnel qu'un défenseur peut réellement utiliser pendant une attaque.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Le framework d'abord — le livre en est le guide</h2>
+    <div class="prose">
+      <p>HACT est le framework. Le livre <em>HACT — Human Adversarial Cognitive Tactics</em> en est le guide de référence officiel : il explique le raisonnement, la psychologie sous-jacente et les cas documentés en profondeur. Ce site est la surface opérationnelle du même framework — fait pour être fouillé, cartographié et consulté, y compris au milieu d'une sollicitation suspecte.</p>
+      <p>La répartition est simple : <b>comprendre avec le livre, agir avec le framework.</b> L'un explique ; l'autre sert tous les jours.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">La famille intellectuelle</h2>
+    <p class="sec-note">HACT ne sort pas de nulle part. Il emprunte délibérément la structure des référentiels de référence qui ont façonné l'analyse de la menace, et en transpose la logique des machines vers les décisions humaines.</p>
+    <div class="family">
+      <div class="f"><b>MITRE ATT&amp;CK®</b><span>The MITRE Corporation — matrice des tactiques et techniques adverses contre les systèmes.</span></div>
+      <div class="f"><b>Cyber Kill Chain®</b><span>Lockheed Martin — le modèle par étapes d'une intrusion, de la reconnaissance à l'action.</span></div>
+      <div class="f"><b>Diamond Model</b><span>Caltagirone, Pendergast &amp; Betz (2013) — adversaire, capacité, infrastructure, victime.</span></div>
+      <div class="f"><b>DISARM</b><span>DISARM Foundation — cadre TTP pour la désinformation et les opérations d'influence.</span></div>
+      <div class="f"><b>OSINT Framework</b><span>Projet communautaire (J. Nordine) — un arbre navigable de ressources de renseignement en source ouverte.</span></div>
+    </div>
+    <div class="prose" style="margin-top:14px">
+      <p>HACT transpose ces principes à la détection des opérations de manipulation humaine. Il entre dans la même famille intellectuelle — non comme une copie, mais comme la pièce manquante : celle qui décrit l'attaque lorsque sa cible est une personne, et non un système.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="callout blue"><b>Ensuite :</b> ouvre la <a href="index.html#matrix">matrice HACT</a> (13 tactiques, 57 techniques), découvre les <a href="ioh-fr.html">indicateurs d'opération HUMINT (IoH)</a>, ou l'<a href="about-fr.html">histoire, le versioning et la citation</a> du projet.</div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="fin">
+    <strong>HACT — Human Adversarial Cognitive Tactics</strong> · Un framework d'Aurélien T. · Usage pédagogique et défensif uniquement.<br />
+    Framework et contenu du site sous licence <a href="LICENSE">CC BY 4.0</a> · le livre reste © l'auteur.
+    <p class="tm">MITRE ATT&amp;CK® et ATT&amp;CK® sont des marques déposées de The MITRE Corporation ; Cyber Kill Chain® est une marque déposée de Lockheed Martin Corporation. Ce travail et le framework HACT ne sont ni affiliés à, ni approuvés, ni parrainés par ces organisations. HACT s'inspire de la structure conceptuelle de ces référentiels publiquement documentés, mais constitue un travail indépendant, publié à des fins strictement pédagogiques et défensives ; l'auteur décline toute responsabilité quant à l'usage qui en est fait.</p>
+  </div>
+</footer>
+
+</body>
+</html>

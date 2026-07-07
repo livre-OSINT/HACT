@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IoH — Indicators of HUMINT Operation | Framework HACT</title>
+<meta name="description" content="Les IoH (Indicators of HUMINT Operation) : le pendant humain de l'indicateur de compromission (IoC). Définition, comparaison IoC / IoH, exemples et règle des trois IoH pour détecter les opérations d'ingénierie sociale." />
+<link rel="canonical" href="https://livre-osint.github.io/HACT/ioh-fr.html" />
+<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/ioh.html" />
+<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/ioh-fr.html" />
+<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/ioh.html" />
+<link rel="stylesheet" href="styles.css" />
+<style>
+.prose{max-width:840px;font-size:15.5px;color:var(--ink);line-height:1.72}
+.prose p{margin:0 0 15px}
+.langsw{border:1px solid currentColor;border-radius:12px;padding:2px 9px;font-weight:700;font-size:12.5px}
+.exlist{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.exlist li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:11px 14px;font-size:13.5px}
+.exlist li b{display:block;font-size:13px;color:var(--navy-2)}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="nav">
+    <div class="brand">
+      <a href="index-fr.html" style="color:inherit;text-decoration:none"><span class="logo">H<b>ACT</b></span></a>
+      <span class="sub">Framework</span>
+    </div>
+    <nav class="links">
+      <a href="index.html#matrix">Matrice</a>
+      <a href="why-fr.html">Pourquoi HACT ?</a>
+      <a href="ioh-fr.html">IoH</a>
+      <a href="mindmap.html">Carte mentale</a>
+      <a href="flowchart.html">Logigramme</a>
+      <a href="response.html">Réponse</a>
+      <a href="about-fr.html">À propos</a>
+      <a href="ioh.html" class="langsw" hreflang="en" title="English version">EN</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-in">
+    <h1>Indicators of HUMINT Operation <b>(IoH)</b></h1>
+    <p class="lead">Le pendant humain de l'indicateur de compromission (IoC). Là où le cyber laisse des journaux, la manipulation humaine laisse des signaux faibles et contextuels — les IoH. HACT les nomme pour que les défenseurs agissent avant que la décision ne soit prise.</p>
+    <p class="meta">Un concept du framework HACT · par Aurélien T.</p>
+  </div>
+</div>
+
+<main>
+
+  <section>
+    <h2 class="sec">Qu'est-ce qu'un IoH ?</h2>
+    <div class="prose">
+      <p>Un <b>Indicator of HUMINT Operation (IoH)</b> est un signe observable qu'une personne est la cible — ou le relais — d'une opération d'ingénierie sociale en cours. C'est l'écho humain de l'IoC : certains praticiens lisent le même sigle comme un « indicateur de compromission humaine », et les deux désignent la même chose — les signaux, côté humain, d'une attaque en cours.</p>
+      <p>Un IoC vit dans une machine : une empreinte, une adresse IP, un processus suspect. Un IoH vit dans une interaction : une demande inhabituelle, une émotion fabriquée, un canal qui ne correspond pas à l'identité revendiquée. L'IoC est lu par un outil ; l'IoH est lu par un humain — et c'est précisément pour cela qu'il lui faut un framework.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="sec">Pourquoi les IoH comptent — et pourquoi un seul ne suffit jamais</h2>
+    <div class="prose">
+      <p>Les indicateurs techniques sont largement binaires : une empreinte malveillante connue est malveillante. Les indicateurs humains, non. L'urgence, l'autorité ou un service rendu peuvent tous être parfaitement légitimes. Pris isolément, un seul IoH ne prouve rien et génère des faux positifs qui érodent la confiance.</p>
+      <p>HACT traite donc les IoH par <b>accumulation, non par isolement</b>. Le signal qui compte, c'est la convergence de plusieurs indicateurs faibles au sein d'une même interaction — un seuil, pas un verdict rendu sur un signal unique.</p>
+    </div>
+    <div class="callout" style="margin-top:6px"><b>La règle des trois IoH.</b> Ne concluez jamais sur un seul signal humain. Lorsque trois IoH distincts, relevant de tactiques différentes, convergent sur un même contact dans une fenêtre de 90 jours, traitez la situation comme une probable tentative de manipulation et passez en vérification — quelle que soit l'identité revendiquée.</div>
+  </section>
+
+  <section>
+    <h2 class="sec">IoC vs IoH</h2>
+    <table class="data">
+      <tr><th>Dimension</th><th>IoC — Indicateur de compromission (cyber)</th><th>IoH — Indicator of HUMINT Operation</th></tr>
+      <tr><td class="k">Objet</td><td>Un système, un réseau, un fichier</td><td>Une personne et sa décision</td></tr>
+      <tr><td class="k">Nature du signal</td><td>Artefact technique (empreinte, IP, domaine, clé de registre)</td><td>Indice comportemental / relationnel (urgence, autorité, secret)</td></tr>
+      <tr><td class="k">Force du signal</td><td>Souvent forte, quasi binaire</td><td>Faible et contextuelle par nature</td></tr>
+      <tr><td class="k">Lu par</td><td>Un outil (EDR, SIEM, antivirus)</td><td>Un humain, idéalement formé</td></tr>
+      <tr><td class="k">Règle de décision</td><td>Une seule correspondance peut déclencher un blocage</td><td>Convergence de plusieurs (règle des trois)</td></tr>
+      <tr><td class="k">Exemple</td><td>Connexion à une adresse IP de C2 connue</td><td>Une demande de virement « urgente et confidentielle » depuis un nouveau canal</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="sec">IoH courants</h2>
+    <p class="sec-note">Aucun n'est suspect à lui seul. Leur valeur tient à leur convergence au sein d'une même interaction.</p>
+    <ul class="exlist">
+      <li><b>Urgence fabriquée</b> Une échéance impérative qui retire le temps de réfléchir ou de vérifier.</li>
+      <li><b>Autorité + secret</b> Un ordre présenté comme venant du sommet, « à garder entre nous ».</li>
+      <li><b>Canal incohérent</b> Une demande sensible arrivant par un canal inhabituel ou nouveau.</li>
+      <li><b>Vérification refusée</b> De la résistance ou de l'agacement quand on propose un rappel ou un second contrôle.</li>
+      <li><b>Contournement du process</b> Une demande qui saute le circuit de validation normal « juste cette fois ».</li>
+      <li><b>Pression émotionnelle</b> Peur, flatterie, culpabilité ou excitation instillées dans l'échange.</li>
+      <li><b>Écart identité–contexte</b> Identité revendiquée incohérente avec le ton, le moment ou les connaissances.</li>
+      <li><b>Hameçon de réciprocité</b> Un petit service rendu d'abord, pour rendre le refus inconfortable.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2 class="sec">De l'indicateur à la détection</h2>
+    <div class="prose">
+      <p>Chaque technique HACT porte l'IoH qu'elle produit typiquement et une contre-mesure. La détection n'est donc pas affaire de repérer une phrase habile, mais de compter les signaux convergents et, au-delà du seuil, de faire passer l'interaction de la confiance à la vérification.</p>
+    </div>
+    <div class="callout blue"><b>Aller plus loin :</b> ouvrez le <a href="index.html#detection">scoring de détection</a> et la <a href="index.html#matrix">matrice</a> pour voir, technique par technique, quels IoH attendre et comment répondre.</div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="fin">
+    <strong>HACT — Human Adversarial Cognitive Tactics</strong> · Un framework d'Aurélien T. · Usage pédagogique et défensif uniquement.<br />
+    Framework et contenu du site sous licence <a href="LICENSE">CC BY 4.0</a> · le livre reste © l'auteur.
+    <p class="tm">MITRE ATT&amp;CK® et ATT&amp;CK® sont des marques déposées de The MITRE Corporation. Le framework HACT est un travail indépendant, ni affilié à, ni approuvé par The MITRE Corporation, publié à des fins strictement pédagogiques et défensives.</p>
+  </div>
+</footer>
+
+</body>
+</html>
