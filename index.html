@@ -26,6 +26,14 @@
 <style>
 .hero .tagline{margin:2px 0 10px;max-width:960px;font-size:18px;line-height:1.5;font-weight:600;color:#fff}
 .hero .tagline b{color:var(--accent-2)}
+.tactics-static{margin-top:30px}
+.tactics-static h3{font-size:16px;color:var(--navy-2);margin:0 0 4px}
+.tactics-static > p{color:var(--muted);font-size:14px;max-width:860px;margin:0 0 14px}
+.ts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px 22px}
+.ts-item{border-left:3px solid var(--accent);padding-left:12px}
+.ts-item b{font-size:13.5px;color:var(--ink)}
+.ts-item .eq{display:block;font-size:11.5px;color:var(--accent);margin:1px 0 3px;font-weight:600}
+.ts-item p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
 </style>
 </head>
 <body>
@@ -86,6 +94,26 @@
         <thead><tr></tr></thead>
         <tbody><tr></tr></tbody>
       </table>
+    </div>
+
+    <div class="tactics-static">
+      <h3>The 13 HACT tactics</h3>
+      <p>HACT organises the adversary's playbook into thirteen tactics (TA-H001 to TA-H013), each mapped to its MITRE ATT&amp;CK® equivalent. Together they describe the full arc of a social-engineering operation, from reconnaissance to impact.</p>
+      <div class="ts-grid">
+        <div class="ts-item"><b>TA-H001 — Target Intelligence</b><span class="eq">↔ MITRE ATT&amp;CK TA0043 Reconnaissance</span><p>Collect enough information to identify the target's exploitable vulnerabilities before any contact.</p></div>
+        <div class="ts-item"><b>TA-H002 — Operational Preparation</b><span class="eq">↔ TA0042 Resource Development</span><p>Prepare resources before contact — cover identities, pretexts, infrastructure. The least detectable phase, conducted entirely at a distance.</p></div>
+        <div class="ts-item"><b>TA-H003 — Initial Contact</b><span class="eq">↔ TA0001 Initial Access</span><p>Establish the first contact vector; as in cybersecurity, most operations succeed or fail at this phase.</p></div>
+        <div class="ts-item"><b>TA-H004 — Legend &amp; Cover Maintenance</b><span class="eq">↔ TA0005 Defense Evasion</span><p>Maintain cover credibility throughout, detecting and neutralizing the target's verification attempts.</p></div>
+        <div class="ts-item"><b>TA-H005 — Rapport Engineering</b><span class="eq">↔ TA0003 Persistence</span><p>Anchor a durable relationship of trust — preserving influence over, or proximity to, the target over time.</p></div>
+        <div class="ts-item"><b>TA-H006 — Psychological Exploitation</b><span class="eq">↔ TA0002 Execution</span><p>Activate the human vulnerabilities identified during reconnaissance. This is the core of the attack.</p></div>
+        <div class="ts-item"><b>TA-H007 — Access Escalation</b><span class="eq">↔ TA0004 Privilege Escalation</span><p>Cross a psychological threshold that opens access to more sensitive information.</p></div>
+        <div class="ts-item"><b>TA-H008 — Network Discovery</b><span class="eq">↔ TA0007 Discovery</span><p>Map the target's informational environment — human links, tools and habits.</p></div>
+        <div class="ts-item"><b>TA-H009 — Social Network Traversal</b><span class="eq">↔ TA0008 Lateral Movement</span><p>Extend beyond the initial target by exploiting their connections; one entry point can compromise a whole network.</p></div>
+        <div class="ts-item"><b>TA-H010 — Intelligence Collection</b><span class="eq">↔ TA0009 Collection</span><p>Extract the target information — personal, professional, emotional or financial.</p></div>
+        <div class="ts-item"><b>TA-H011 — Handler Communication</b><span class="eq">↔ TA0011 Command &amp; Control</span><p>Maintain the psychological link and relational dominance over the target.</p></div>
+        <div class="ts-item"><b>TA-H012 — Intelligence Exfiltration</b><span class="eq">↔ TA0010 Exfiltration</span><p>Transfer the collected intelligence — verbal, emotional or behavioral information.</p></div>
+        <div class="ts-item"><b>TA-H013 — Influence &amp; Impact</b><span class="eq">↔ TA0040 Impact</span><p>Produce a real, measurable operational effect on the target — the strategic culmination of the operation.</p></div>
+      </div>
     </div>
   </section>
 
