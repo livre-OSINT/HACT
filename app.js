@@ -189,14 +189,53 @@
   const rbox = $("#reflexes");
   REFLEXES.forEach(([k, v], i) => { const c = el("div", "card acc"); c.innerHTML = `<h3>${i + 1}. ${esc(k)}</h3><p style="color:var(--muted);font-size:13.5px;margin:0">${esc(v)}</p>`; rbox.appendChild(c); });
 
-  // Rule of 3 IoH + insider
-  $("#three-ioh").textContent = THREE_IOH_RULE;
+  // IoH weighted scoring model (replaces the former rule of three) + insider note
+  renderIohModel();
   $("#insider-title").textContent = INSIDER.title;
   $("#insider-text").textContent = INSIDER.text;
+
+  function renderIohModel() {
+    const anchor = document.getElementById("three-ioh");
+    if (!anchor || typeof IOH_MODEL === "undefined") {
+      if (anchor) anchor.textContent = (typeof THREE_IOH_RULE !== "undefined") ? THREE_IOH_RULE : "";
+      return;
+    }
+    const callout = anchor.closest(".callout") || anchor.parentElement;
+    const m = IOH_MODEL;
+    let h = "";
+    h += `<div class="callout"><b>From counting to weighting — the IoH score.</b> ${esc(m.intro)}</div>`;
+    h += `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:6px">`;
+    h += `<div><h4 style="margin:6px 0 6px">Signal weights</h4><table class="data"><tr><th>Level</th><th>Weight</th><th>Meaning</th></tr>`;
+    m.weights.forEach(r => h += `<tr><td><span class="chip ${lvlClass(r[0])}">${esc(r[0])}</span></td><td class="k">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`);
+    h += `</table></div>`;
+    const tclass = ["ghost", "medium", "high"];
+    h += `<div><h4 style="margin:6px 0 6px">Decision thresholds (90-day window)</h4><table class="data"><tr><th>Cumulative score</th><th>Level</th><th>Action</th></tr>`;
+    m.thresholds.forEach((r, i) => h += `<tr><td class="k">${esc(r[0])}</td><td><span class="chip ${tclass[i] || "ghost"}">${esc(r[1])}</span></td><td>${esc(r[2])}</td></tr>`);
+    h += `</table></div>`;
+    h += `</div>`;
+    h += `<h4 style="margin:16px 0 4px">Correction rules</h4><ul style="margin:0 0 4px;padding-left:18px;line-height:1.65">`;
+    m.rules.forEach(r => h += `<li style="margin-bottom:5px"><b>${esc(r[0])}.</b> ${esc(r[1])}</li>`);
+    h += `</ul>`;
+    h += `<div class="callout blue">${esc(m.worked)}</div>`;
+    const wrap = el("div");
+    wrap.innerHTML = h;
+    callout.parentNode.replaceChild(wrap, callout);
+  }
 
   // Bibliography
   const bib = $("#biblio");
   BIBLIO.forEach(b => bib.appendChild(el("li", null, esc(b))));
+
+  // Footer: framework version + changelog link
+  (function footerVersion() {
+    const tm = document.querySelector("footer .fin .tm");
+    if (!tm) return;
+    const v = el("div");
+    v.style.cssText = "margin:8px 0 0;font-size:12px;color:var(--muted)";
+    const rel = HACT_META.released ? " (" + esc(HACT_META.released) + ")" : "";
+    v.innerHTML = `Framework version <b>${esc(HACT_META.version)}</b>${rel} · <a href="CHANGELOG.md">Changelog</a>`;
+    tm.parentNode.insertBefore(v, tm);
+  })();
 
   function fillTable(sel, headers, rows) {
     const tbl = $(sel); if (!tbl) return;

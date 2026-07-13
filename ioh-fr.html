@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>IoH — Indicators of HUMINT Operation | Framework HACT</title>
-<meta name="description" content="Les IoH (Indicators of HUMINT Operation) : le pendant humain de l'indicateur de compromission (IoC). Définition, comparaison IoC / IoH, exemples et règle des trois IoH pour détecter les opérations d'ingénierie sociale." />
+<meta name="description" content="Les IoH (Indicators of HUMINT Operation) : le pendant humain de l'indicateur de compromission (IoC). Définition, comparaison IoC / IoH, exemples et score pondéré des IoH pour détecter les opérations d'ingénierie sociale." />
 <link rel="canonical" href="https://livre-osint.github.io/HACT/ioh-fr.html" />
 <link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/ioh.html" />
 <link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/ioh-fr.html" />
@@ -16,6 +16,10 @@
 .exlist{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
 .exlist li{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:11px 14px;font-size:13.5px}
 .exlist li b{display:block;font-size:13px;color:var(--navy-2)}
+.model-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-top:6px}
+.model-grid h4{margin:6px 0 6px}
+.rules{margin:0 0 4px;padding-left:18px;line-height:1.65}
+.rules li{margin-bottom:5px}
 </style>
 </head>
 <body>
@@ -33,6 +37,7 @@
       <a href="mindmap.html">Carte mentale</a>
       <a href="flowchart.html">Logigramme</a>
       <a href="response.html">Réponse</a>
+      <a href="arsenal.html">Arsenal</a>
       <a href="about-fr.html">À propos</a>
     </nav>
   </div>
@@ -57,12 +62,45 @@
   </section>
 
   <section>
-    <h2 class="sec">Pourquoi les IoH comptent — et pourquoi un seul ne suffit jamais</h2>
+    <h2 class="sec">Pourquoi les IoH comptent — et pourquoi le décompte ne suffit pas</h2>
     <div class="prose">
       <p>Les indicateurs techniques sont largement binaires : une empreinte malveillante connue est malveillante. Les indicateurs humains, non. L'urgence, l'autorité ou un service rendu peuvent tous être parfaitement légitimes. Pris isolément, un seul IoH ne prouve rien et génère des faux positifs qui érodent la confiance.</p>
-      <p>HACT traite donc les IoH par <b>accumulation, non par isolement</b>. Le signal qui compte, c'est la convergence de plusieurs indicateurs faibles au sein d'une même interaction — un seuil, pas un verdict rendu sur un signal unique.</p>
+      <p>Mais <b>compter</b> les signaux est tout aussi fragile : un seul signal décisif peut suffire, tandis que trois signaux faibles portant sur la <i>même</i> tactique ne prouvent pas grand-chose. HACT v1.0 remplace donc l'ancienne « règle des trois » par un <b>score pondéré</b> qui corrige ces deux angles morts.</p>
     </div>
-    <div class="callout" style="margin-top:6px"><b>La règle des trois IoH.</b> Ne concluez jamais sur un seul signal humain. Lorsque trois IoH distincts, relevant de tactiques différentes, convergent sur un même contact dans une fenêtre de 90 jours, traitez la situation comme une probable tentative de manipulation et passez en vérification — quelle que soit l'identité revendiquée.</div>
+
+    <div class="callout"><b>Du décompte à la pondération — le score IoH.</b> On n'additionne plus des signaux, on les <b>pèse</b>. Chaque IoH observé reçoit un poids selon sa force diagnostique ; le cumul, sur une fenêtre de 90 jours, décide de l'action. Les quatre niveaux sont ceux déjà attachés à chaque tableau d'indicateurs « menaces IA » du site.</div>
+
+    <div class="model-grid">
+      <div>
+        <h4>Poids des signaux</h4>
+        <table class="data">
+          <tr><th>Niveau</th><th>Poids</th><th>Signification</th></tr>
+          <tr><td><span class="chip crit">Critique</span></td><td class="k">3</td><td>Quasi-signature d'une opération — p. ex. isolement actif du canal de vérification, ou refus d'en changer.</td></tr>
+          <tr><td><span class="chip high">Élevé</span></td><td class="k">2</td><td>Signal fort, rarement anodin en contexte — p. ex. profil récent portant un historique dense et rétroactif.</td></tr>
+          <tr><td><span class="chip medium">Modéré</span></td><td class="k">1</td><td>Signal contributif, ambigu isolément — p. ex. disponibilité permanente à toute heure, canal inhabituel.</td></tr>
+          <tr><td><span class="chip ghost">Faible</span></td><td class="k">0,5</td><td>Peu diagnostique seul ; significatif seulement en combinaison.</td></tr>
+        </table>
+      </div>
+      <div>
+        <h4>Seuils de décision (fenêtre de 90 jours)</h4>
+        <table class="data">
+          <tr><th>Score cumulé</th><th>Niveau</th><th>Action</th></tr>
+          <tr><td class="k">0 – 2</td><td><span class="chip ghost">Base</span></td><td>Vigilance normale. Aucune action particulière.</td></tr>
+          <tr><td class="k">3 – 4</td><td><span class="chip medium">Attention</span></td><td>Vérification standard : rappel indépendant sur un canal connu avant toute action sensible.</td></tr>
+          <tr><td class="k">≥ 5</td><td><span class="chip high">Suspension</span></td><td>Stop. Vérification complète par un canal indépendant avant TOUTE action financière, d'accès ou de données — aucune exception, ni hiérarchie ni urgence.</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h4 style="margin:16px 0 4px">Règles de correction</h4>
+    <ul class="rules">
+      <li><b>Diversité plutôt que répétition.</b> Comptez le premier IoH de chaque tactique à plein poids, les IoH suivants d'une <i>même</i> tactique à demi-poids. Une seule opération déclenche des signaux corrélés ; les additionner naïvement surestime la certitude.</li>
+      <li><b>Coupe-circuit.</b> Tout IoH <i>Critique</i> qui isole ou refuse le canal de vérification (refus d'un contrôle indépendant, exigence de secret avant une interaction clé) impose la Suspension à lui seul, quel que soit le total.</li>
+      <li><b>Fenêtre de 90 jours.</b> Cumulez le score sur les signaux observés sur une même personne ou un même contact en 90 jours, puis remettez à zéro.</li>
+      <li><b>Orientation, pas preuve.</b> Le score oriente une décision de vérifier. C'est une aide au tri, jamais une preuve de culpabilité.</li>
+    </ul>
+
+    <div class="callout blue"><b>Exemple chiffré —</b> un « fournisseur » rencontré il y a trois semaines (profil récent à l'historique dense = <b>Élevé, 2</b>) demande par WhatsApp (canal inhabituel = <b>Modéré, 1</b>) un changement urgent de coordonnées bancaires (urgence = <b>Modéré, 1</b>) et se braque quand vous proposez d'appeler le numéro connu (résistance à la vérification = <b>Critique, 3</b>). Score = <b>7</b> — et le coupe-circuit Critique impose déjà, à lui seul, la Suspension.</div>
   </section>
 
   <section>
@@ -73,14 +111,14 @@
       <tr><td class="k">Nature du signal</td><td>Artefact technique (empreinte, IP, domaine, clé de registre)</td><td>Indice comportemental / relationnel (urgence, autorité, secret)</td></tr>
       <tr><td class="k">Force du signal</td><td>Souvent forte, quasi binaire</td><td>Faible et contextuelle par nature</td></tr>
       <tr><td class="k">Lu par</td><td>Un outil (EDR, SIEM, antivirus)</td><td>Un humain, idéalement formé</td></tr>
-      <tr><td class="k">Règle de décision</td><td>Une seule correspondance peut déclencher un blocage</td><td>Convergence de plusieurs (règle des trois)</td></tr>
+      <tr><td class="k">Règle de décision</td><td>Une seule correspondance peut déclencher un blocage</td><td>Score pondéré des signaux convergents (Critique 3 / Élevé 2 / Modéré 1 / Faible 0,5)</td></tr>
       <tr><td class="k">Exemple</td><td>Connexion à une adresse IP de C2 connue</td><td>Une demande de virement « urgente et confidentielle » depuis un nouveau canal</td></tr>
     </table>
   </section>
 
   <section>
     <h2 class="sec">IoH courants</h2>
-    <p class="sec-note">Aucun n'est suspect à lui seul. Leur valeur tient à leur convergence au sein d'une même interaction.</p>
+    <p class="sec-note">Aucun n'est suspect à lui seul. Leur valeur tient à leur convergence, pondérée, au sein d'une même interaction.</p>
     <ul class="exlist">
       <li><b>Urgence fabriquée</b> Une échéance impérative qui retire le temps de réfléchir ou de vérifier.</li>
       <li><b>Autorité + secret</b> Un ordre présenté comme venant du sommet, « à garder entre nous ».</li>
@@ -96,7 +134,7 @@
   <section>
     <h2 class="sec">De l'indicateur à la détection</h2>
     <div class="prose">
-      <p>Chaque technique HACT porte l'IoH qu'elle produit typiquement et une contre-mesure. La détection n'est donc pas affaire de repérer une phrase habile, mais de compter les signaux convergents et, au-delà du seuil, de faire passer l'interaction de la confiance à la vérification.</p>
+      <p>Chaque technique HACT porte l'IoH qu'elle produit typiquement et une contre-mesure. La détection n'est donc pas affaire de repérer une phrase habile, mais de <b>pondérer</b> les signaux convergents et, au-delà du seuil, de faire passer l'interaction de la confiance à la vérification.</p>
     </div>
     <div class="callout blue"><b>Aller plus loin :</b> ouvrez le <a href="index.html#detection">scoring de détection</a> et la <a href="index.html#matrix">matrice</a> pour voir, technique par technique, quels IoH attendre et comment répondre.</div>
   </section>
@@ -106,7 +144,8 @@
 <footer>
   <div class="fin">
     <strong>HACT — Human Adversarial Cognitive Tactics</strong> · Un framework d'Aurélien T. · Usage pédagogique et défensif uniquement.<br />
-    Framework et contenu du site sous licence <a href="LICENSE">CC BY 4.0</a> · le livre reste © l'auteur.
+    Framework et contenu du site sous licence <a href="LICENSE">CC BY 4.0</a> · le livre reste © l'auteur.<br />
+    Version du framework <b>v1.0.0</b> (13 juillet 2026) · <a href="CHANGELOG.md">Journal des modifications</a>
     <p class="tm">MITRE ATT&amp;CK® et ATT&amp;CK® sont des marques déposées de The MITRE Corporation. Le framework HACT est un travail indépendant, ni affilié à, ni approuvé par The MITRE Corporation, publié à des fins strictement pédagogiques et défensives.</p>
   </div>
 </footer>

@@ -12,7 +12,8 @@
 const HACT_META = {
   name: "HACT",
   longName: "Human Adversarial Cognitive Tactics",
-  version: "v2 — July 2026",
+  version: "v1.0.0",
+  released: "13 July 2026",
   author: "Aurélien T.",
   tagline: "The adversarial knowledge base for social engineering & human intelligence (HUMINT) operations."
 };
@@ -354,12 +355,35 @@ const SCORING = {
   ]
 };
 
-/* The rule of three IoH */
+/* Legacy fallback string (superseded by IOH_MODEL, kept for compatibility). */
 const THREE_IOH_RULE =
-  "No single IoH proves a malicious operation. If THREE distinct IoH, belonging to " +
-  "DIFFERENT tactics, are observed on the same individual or contact within a 90-day " +
-  "window → trigger an in-depth verification procedure. Multiple IoH on the same tactic " +
-  "carry less weight than IoH spread across several tactics.";
+  "No single IoH proves a malicious operation. Score the observed indicators by " +
+  "weight (Critical 3 / High 2 / Moderate 1 / Weak 0.5) over a 90-day window; a " +
+  "cumulative score of 5 or more — or any single Critical signal that isolates the " +
+  "verification channel — triggers full independent verification.";
+
+/* IoH weighted scoring model (HACT v1.0 — supersedes the former "rule of three"). */
+const IOH_MODEL = {
+  intro: "A fixed count of signals is fragile: one decisive signal can be enough, while three weak signals on the SAME tactic prove little. HACT v1.0 replaces the earlier “rule of three” with a weighted score that fixes both failure modes. The weights reuse the same four levels (Critical / High / Moderate / Weak) already attached to every AI-threat indicator table on this site.",
+  weights: [
+    ["Critical", "3", "Near-signature of an operation — e.g. active isolation of, or refusal to move to, an independent verification channel."],
+    ["High", "2", "Strong signal, rarely benign in context — e.g. a recently created profile carrying a dense, retroactive history."],
+    ["Moderate", "1", "Contributory signal, ambiguous in isolation — e.g. permanent availability at any hour, an unusual channel."],
+    ["Weak", "0.5", "Weakly diagnostic on its own; meaningful only in combination."]
+  ],
+  thresholds: [
+    ["0 – 2", "Baseline", "Normal vigilance. No specific action."],
+    ["3 – 4", "Elevated", "Apply standard verification: an independent call-back on a known-good channel before any sensitive action."],
+    ["≥ 5", "Suspend", "Stop. Full verification through an independent channel before ANY financial, access or data action — no exception for hierarchy or urgency."]
+  ],
+  rules: [
+    ["Diversity over repetition", "Score the first IoH of each tactic at full weight, additional IoH on the SAME tactic at half weight. A single operation triggers correlated signals; counting them naively overstates certainty."],
+    ["Kill-switch", "Any single Critical IoH that isolates or resists the verification channel (refusal to move to an independent check, demand for secrecy before a key interaction) forces Suspend on its own, whatever the total."],
+    ["90-day window", "Accumulate the score over signals observed on the same person or contact within 90 days, then reset."],
+    ["Triage, not proof", "The score orients a decision to verify. It is a triage aid, never evidence of guilt."]
+  ],
+  worked: "Worked example — a ‘supplier’ met three weeks ago (recent profile with a dense history = High, 2) asks over WhatsApp (unusual channel = Moderate, 1) for an urgent change of bank details (urgency = Moderate, 1) and pushes back when you offer to call the number on file (verification resistance = Critical, 3). Score = 7 — and the Critical kill-switch alone already forces Suspend."
+};
 
 /* Persuasion principles (PPSE) */
 const PPSE = [
@@ -452,7 +476,7 @@ const REFLEXES = [
   ["Urgency = signal", "Any request using urgency as its main argument is a DIS-type IoH. Legitimate urgency survives a two-minute check; what doesn't, probably isn't legitimate."],
   ["Unusual channel = mandatory verification", "An incoming call, an SMS from an unknown number, a request via a private channel is never a verification channel — it is precisely what must be verified."],
   ["Call back, never promise", "For any sensitive phone/video request, the standard answer is: 'I'll call you back on your usual line in five minutes.' This one sentence neutralizes TH-2006 and TH-3006."],
-  ["Two IoH = suspend", "As soon as two alerts fire simultaneously — any combination — take no action before full verification. No exception for superiors. No exception for emergencies."],
+  ["Score ≥ 5 = suspend", "Weigh the alerts (Critical 3 / High 2 / Moderate 1 / Weak 0.5); as soon as the total reaches 5 — or a single Critical signal isolates the verification channel — take no action before full verification. No exception for superiors. No exception for emergencies."],
   ["Report, even if you complied", "If an action was already taken and doubt arises, alert the security officer immediately. The window to limit impact is always open in the first hours. The shame of reporting a mistake costs infinitely less than silence."]
 ];
 
@@ -495,6 +519,7 @@ const BIBLIO = [
   "Cialdini, R. B. (2007). Influence: The Psychology of Persuasion. Harper Business.",
   "Ferreira, A., Coventry, L., & Lenzini, G. (2015). Principles of Persuasion in Social Engineering and Their Use in Phishing. Univ. of Luxembourg.",
   "Ferreira, A., Bragança, H. (2021). Why social engineering works. Proc. HAISA.",
+  "FBI Internet Crime Complaint Center (IC3). (2025). 2024 Internet Crime Report. https://www.ic3.gov",
   "Gragg, D. (2003). A Multi-Level Defense Against Social Engineering. SANS Institute.",
   "MITRE Corporation. (2023). MITRE ATT&CK® Framework. https://attack.mitre.org",
   "Mitnick, K. & Simon, W. (2002). The Art of Deception. Wiley.",
@@ -503,16 +528,17 @@ const BIBLIO = [
   "Stajano, F. & Wilson, P. (2011). Understanding Scam Victims: Seven Principles for Systems Security. Commun. ACM, 54(3).",
   "Syafitri, W. et al. (2022). Social Engineering Attacks Prevention: A Systematic Literature Review. IEEE Access, 10.",
   "Verizon. (2023). Data Breach Investigations Report (DBIR).",
+  "Verizon. (2024). Data Breach Investigations Report (DBIR), 17th ed.",
   "Wang, Z. et al. (2021). Social Engineering in Cybersecurity. IEEE Access, 9.",
   "Schmitt, M. & Flechais, I. (2023). Digital Deception: Generative AI in Social Engineering and Phishing. SSRN.",
   "Salahdine, F. & Kaabouch, N. (2019). Social Engineering Attacks: A Survey. Future Internet.",
   "Kahneman, D. (2011). Thinking, Fast and Slow. FSG."
 ];
 
-/* Key statistics */
+/* Key statistics (refreshed to 2024 sources — HACT v1.0.0). */
 const STATS = [
-  ["74%", "of data breaches involve a human element", "Verizon DBIR 2023"],
-  ["44%", "share of phishing among SE attacks", "Verizon DBIR 2023"],
-  ["$1.8B", "phishing-related losses (2020)", "FBI IC3"],
-  ["$50,000", "median cost per phishing attack", "Verizon 2023"]
+  ["68%", "of breaches involve a non-malicious human element (error or social engineering)", "Verizon 2024 DBIR"],
+  ["21 s", "median time for a user to click a phishing link", "Verizon 2024 DBIR"],
+  ["$16.6B", "record cybercrime losses reported to the FBI in 2024 (+33% YoY)", "FBI IC3 2024"],
+  ["$2.77B", "2024 losses to Business Email Compromise (BEC)", "FBI IC3 2024"]
 ];
