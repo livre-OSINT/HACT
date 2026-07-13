@@ -3,41 +3,9 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>HACT — Human Adversarial Cognitive Tactics | The Social-Engineering Matrix</title>
-<meta name="description" content="HACT: an open, ATT&amp;CK-style framework for mapping social-engineering operations — tactics, techniques (TTPs), indicators of HUMINT operation (IoH) and countermeasures. Educational, defensive." />
-<meta name="keywords" content="HACT, social engineering framework, ATT&amp;CK for humans, IoH, indicators of HUMINT operation, human threat matrix, anti social engineering, HUMINT, security awareness, countermeasures" />
-<link rel="canonical" href="https://livre-osint.github.io/HACT/" />
-<link rel="alternate" hreflang="en" href="https://livre-osint.github.io/HACT/" />
-<link rel="alternate" hreflang="fr" href="https://livre-osint.github.io/HACT/index-fr.html" />
-<link rel="alternate" hreflang="x-default" href="https://livre-osint.github.io/HACT/" />
-<meta property="og:title" content="HACT — Human Adversarial Cognitive Tactics" />
-<meta property="og:description" content="An open, ATT&amp;CK-style framework for mapping social engineering: tactics, techniques, indicators of HUMINT operation (IoH) and countermeasures." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://livre-osint.github.io/HACT/" />
-<meta name="twitter:card" content="summary_large_image" />
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"WebSite",
-  "name":"HACT — Human Adversarial Cognitive Tactics",
-  "url":"https://livre-osint.github.io/HACT/",
-  "description":"An open, ATT&CK-style framework for mapping social-engineering operations: tactics, techniques, indicators of HUMINT operation (IoH) and countermeasures.",
-  "author":{"@type":"Person","name":"Aurélien T."}
-}
-</script>
+<title>HACT — Human Adversarial Cognitive Tactics | Anti-Social-Engineering Matrix</title>
+<meta name="description" content="HACT: an ATT&CK-style knowledge base of social-engineering tactics, techniques (TTPs), indicators (IoH) and countermeasures. Educational, defensive." />
 <link rel="stylesheet" href="styles.css" />
-<style>
-.hero .tagline{margin:2px 0 10px;max-width:960px;font-size:18px;line-height:1.5;font-weight:600;color:#fff}
-.hero .tagline b{color:var(--accent-2)}
-.tactics-static{margin-top:30px}
-.tactics-static h3{font-size:16px;color:var(--navy-2);margin:0 0 4px}
-.tactics-static > p{color:var(--muted);font-size:14px;max-width:860px;margin:0 0 14px}
-.ts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px 22px}
-.ts-item{border-left:3px solid var(--accent);padding-left:12px}
-.ts-item b{font-size:13.5px;color:var(--ink)}
-.ts-item .eq{display:block;font-size:11.5px;color:var(--accent);margin:1px 0 3px;font-weight:600}
-.ts-item p{margin:0;font-size:13px;color:var(--muted);line-height:1.5}
-</style>
 </head>
 <body>
 
@@ -49,18 +17,16 @@
     </div>
     <nav class="links">
       <a href="#matrix">Matrix</a>
-      <a href="why.html">Why HACT?</a>
-      <a href="ioh.html">IoH</a>
+      <a href="mindmap.html">Mind map</a>
+      <a href="flowchart.html">Flowchart</a>
+      <a href="response.html">Response</a>
+      <a href="arsenal.html">Arsenal</a>
       <a href="#analogy">HACT vs ATT&amp;CK</a>
       <a href="#detection">Detection</a>
       <a href="#ai">AI threats</a>
       <a href="#cases">Cases</a>
       <a href="#defense">Defense</a>
       <a href="#compliance">Compliance</a>
-      <a href="mindmap.html">Mind map</a>
-      <a href="flowchart.html">Flowchart</a>
-      <a href="response.html">Response</a>
-      <a href="about.html">About</a>
     </nav>
     <div class="search"><input id="search" type="search" placeholder="Search techniques…" autocomplete="off" /></div>
   </div>
@@ -69,9 +35,8 @@
 <div class="hero">
   <div class="hero-in">
     <h1>H<b>ACT</b> — Human Adversarial Cognitive Tactics</h1>
-    <p class="tagline">The open, ATT&amp;CK-style framework for mapping social-engineering operations, naming the tactics of manipulation, and detecting <b>indicators of HUMINT operation (IoH)</b>.</p>
-    <p class="lead">The adversarial knowledge base for social engineering &amp; human intelligence (HUMINT) operations — modeled on MITRE ATT&amp;CK®. Every tactic, technique, indicator (IoH) and countermeasure of the HACT framework, in one interactive matrix. <a href="why.html" style="color:#fff;text-decoration:underline">Why HACT?</a></p>
-    <p class="meta">A framework by Aurélien T. · The book <em>HACT</em> is its reference guide · Educational and defensive use only.</p>
+    <p class="lead">The adversarial knowledge base for social engineering &amp; human intelligence (HUMINT) operations — modeled on MITRE ATT&amp;CK®. Every tactic, technique, indicator of operation (IoH) and countermeasure of the HACT anti-social-engineering framework.</p>
+    <p class="meta">A framework by Aurélien T. · Published for educational and defensive purposes only.</p>
     <div class="stats" id="stats"></div>
   </div>
 </div>
@@ -84,7 +49,7 @@
   <!-- MATRIX -->
   <section id="matrix">
     <h2 class="sec">The HACT Matrix — <span id="count-tactics"></span> tactics, <span id="count-tech"></span> techniques</h2>
-    <p class="sec-note">Columns are tactics (the adversary's <em>why</em>); cells are techniques (the <em>how</em>). Click any cell for technique detail, or a column header for the full tactic — objective, ATT&amp;CK equivalent, scoring, IoH and countermeasures.</p>
+    <p class="sec-note">Columns are tactics (the adversary's <em>why</em>); cells are techniques (the <em>how</em>). Click any cell for technique detail, or a column header for the full tactic. See also the <a href="mindmap.html">Mind map</a>, the <a href="flowchart.html">Flowchart</a>, the <a href="response.html">Response</a> playbooks and the <a href="arsenal.html">Arsenal</a> (red-team methods by tactic).</p>
     <div class="matrix-toolbar">
       <div class="legend">
         <span><span class="dot high"></span>High severity</span>
@@ -97,26 +62,6 @@
         <thead><tr></tr></thead>
         <tbody><tr></tr></tbody>
       </table>
-    </div>
-
-    <div class="tactics-static">
-      <h3>The 13 HACT tactics</h3>
-      <p>HACT organises the adversary's playbook into thirteen tactics (TA-H001 to TA-H013), each mapped to its MITRE ATT&amp;CK® equivalent. Together they describe the full arc of a social-engineering operation, from reconnaissance to impact.</p>
-      <div class="ts-grid">
-        <div class="ts-item"><b>TA-H001 — Target Intelligence</b><span class="eq">↔ MITRE ATT&amp;CK TA0043 Reconnaissance</span><p>Collect enough information to identify the target's exploitable vulnerabilities before any contact.</p></div>
-        <div class="ts-item"><b>TA-H002 — Operational Preparation</b><span class="eq">↔ TA0042 Resource Development</span><p>Prepare resources before contact — cover identities, pretexts, infrastructure. The least detectable phase, conducted entirely at a distance.</p></div>
-        <div class="ts-item"><b>TA-H003 — Initial Contact</b><span class="eq">↔ TA0001 Initial Access</span><p>Establish the first contact vector; as in cybersecurity, most operations succeed or fail at this phase.</p></div>
-        <div class="ts-item"><b>TA-H004 — Legend &amp; Cover Maintenance</b><span class="eq">↔ TA0005 Defense Evasion</span><p>Maintain cover credibility throughout, detecting and neutralizing the target's verification attempts.</p></div>
-        <div class="ts-item"><b>TA-H005 — Rapport Engineering</b><span class="eq">↔ TA0003 Persistence</span><p>Anchor a durable relationship of trust — preserving influence over, or proximity to, the target over time.</p></div>
-        <div class="ts-item"><b>TA-H006 — Psychological Exploitation</b><span class="eq">↔ TA0002 Execution</span><p>Activate the human vulnerabilities identified during reconnaissance. This is the core of the attack.</p></div>
-        <div class="ts-item"><b>TA-H007 — Access Escalation</b><span class="eq">↔ TA0004 Privilege Escalation</span><p>Cross a psychological threshold that opens access to more sensitive information.</p></div>
-        <div class="ts-item"><b>TA-H008 — Network Discovery</b><span class="eq">↔ TA0007 Discovery</span><p>Map the target's informational environment — human links, tools and habits.</p></div>
-        <div class="ts-item"><b>TA-H009 — Social Network Traversal</b><span class="eq">↔ TA0008 Lateral Movement</span><p>Extend beyond the initial target by exploiting their connections; one entry point can compromise a whole network.</p></div>
-        <div class="ts-item"><b>TA-H010 — Intelligence Collection</b><span class="eq">↔ TA0009 Collection</span><p>Extract the target information — personal, professional, emotional or financial.</p></div>
-        <div class="ts-item"><b>TA-H011 — Handler Communication</b><span class="eq">↔ TA0011 Command &amp; Control</span><p>Maintain the psychological link and relational dominance over the target.</p></div>
-        <div class="ts-item"><b>TA-H012 — Intelligence Exfiltration</b><span class="eq">↔ TA0010 Exfiltration</span><p>Transfer the collected intelligence — verbal, emotional or behavioral information.</p></div>
-        <div class="ts-item"><b>TA-H013 — Influence &amp; Impact</b><span class="eq">↔ TA0040 Impact</span><p>Produce a real, measurable operational effect on the target — the strategic culmination of the operation.</p></div>
-      </div>
     </div>
   </section>
 
@@ -142,7 +87,7 @@
   <!-- DETECTION -->
   <section id="detection">
     <h2 class="sec">Detection — Indicators of HUMINT Operation (IoH)</h2>
-    <p class="sec-note">Where cyber uses binary Indicators of Compromise (IoC), human signals are weak and contextual. HACT applies a threshold rule instead of concluding on a single signal. <a href="ioh.html">Full IoH page →</a></p>
+    <p class="sec-note">Where cyber uses binary Indicators of Compromise (IoC), human signals are weak and contextual. HACT applies a threshold rule instead of concluding on a single signal.</p>
     <div class="callout"><b>The rule of three IoH.</b> <span id="three-ioh"></span></div>
     <div class="tabs" style="margin-top:18px">
       <div class="tab active" data-pane="pane-score">Detection scoring</div>
@@ -177,7 +122,7 @@
   <!-- DEFENSE -->
   <section id="defense">
     <h2 class="sec">Defense — the five emergency reflexes</h2>
-    <p class="sec-note">The whole framework condensed into five reflexes usable in under sixty seconds when facing any unusual request.</p>
+    <p class="sec-note">The whole framework condensed into five reflexes usable in under sixty seconds when facing any unusual request. See the <a href="flowchart.html">decision-tree flowchart</a> and the full <a href="response.html">Response playbooks</a>.</p>
     <div class="grid" id="reflexes"></div>
     <h2 class="sec" style="margin-top:28px">Organizational maturity model</h2>
     <table class="data" id="tbl-maturity"></table>
@@ -206,14 +151,12 @@
 <footer>
   <div class="fin">
     <strong>HACT — Human Adversarial Cognitive Tactics</strong> · A framework by Aurélien T. · Educational &amp; defensive use only.<br />
-    <a href="why.html">Why HACT?</a> · <a href="ioh.html">IoH</a> · <a href="about.html">About &amp; citation</a> · <a href="https://github.com/livre-OSINT/HACT" target="_blank" rel="noopener">GitHub</a> · Contact: Livre_OSINT@proton.me<br />
-    Framework &amp; site content licensed <a href="LICENSE">CC BY 4.0</a> · the book remains © the author.
+    Contact: Livre_OSINT@proton.me
     <p class="tm">MITRE ATT&amp;CK® and ATT&amp;CK® are registered trademarks of The MITRE Corporation. This work and the HACT (Human Adversarial Cognitive Tactics) framework it describes are neither affiliated with, endorsed by, nor sponsored by The MITRE Corporation. HACT draws on the conceptual structure of MITRE ATT&amp;CK® — freely accessible and usable under its terms of use — but is an independent work; its content, taxonomic choices and conclusions are the sole responsibility of the author and in no way express the views of The MITRE Corporation or its staff. This material is published strictly for educational and defensive purposes; the author accepts no liability for any use made of it.</p>
   </div>
 </footer>
 
 <script src="data.js"></script>
 <script src="app.js"></script>
-<script src="lang.js"></script>
 </body>
 </html>

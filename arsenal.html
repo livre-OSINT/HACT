@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HACT — Red-Team Arsenal by tactic</title>
+<style>
+  :root{--navy:#0b2338;--navy-2:#12395b;--accent:#c8102e;--bg:#f4f6f8;--ink:#1b2a38;--muted:#5a6b7b;--line:#dce3ea;--cell-hover:#d6e6f2;
+        --off:#c8102e;--det:#c98a00;--ctr:#2e7d32;--surface:#ffffff;--surface1:#eef3f7;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg)}
+  header.top{background:linear-gradient(180deg,var(--navy),var(--navy-2));color:#fff;padding:14px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:20}
+  header.top .logo{font-weight:800;font-size:20px;letter-spacing:.5px}
+  header.top .logo b{color:#e94b5b}
+  header.top .sub{font-size:12.5px;color:#9db6cc}
+  header.top .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+  header.top .lang{display:flex;gap:5px}
+  header.top .lang button{font-size:12.5px;padding:5px 11px;border-radius:16px;border:1px solid #2c5578;background:#0a2135;color:#cfe0ee;cursor:pointer}
+  header.top .lang button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  header.top a.back{color:#cfe0ee;text-decoration:none;font-size:13px;font-weight:600;border:1px solid #2c5578;padding:6px 12px;border-radius:18px}
+  header.top a.back:hover{background:#0a2135;color:#fff}
+  main{max-width:1200px;margin:0 auto;padding:20px}
+  h1.sec{font-size:20px;border-left:4px solid var(--accent);padding-left:10px;margin:6px 0 4px;font-weight:700}
+  p.note{color:var(--muted);font-size:14px;max-width:900px;margin:2px 0 0}
+  .chainlbl{font-size:12.5px;color:var(--muted);margin:16px 0 8px;text-transform:uppercase;letter-spacing:.4px}
+  .barrow{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+  .chain{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:220px}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;padding:5px 10px;border-radius:16px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.12s}
+  .chip:hover{background:var(--cell-hover)}
+  .chip .dot{width:9px;height:9px;border-radius:50%}
+  .expbtn{font-size:12.5px;padding:6px 12px;border-radius:16px;border:1px solid var(--line);background:#fff;cursor:pointer;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin-top:14px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:.15s}
+  .card.hl{border:2px solid var(--accent);padding:13px 15px}
+  .chead{display:flex;align-items:center;gap:11px;cursor:pointer}
+  .ico{width:40px;height:40px;flex:0 0 auto;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .ico svg{width:23px;height:23px;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+  .ctitle{flex:1;min-width:0}
+  .cid{font-size:12px;color:var(--muted);font-weight:700}
+  .cname{font-size:16px;font-weight:700;color:var(--ink)}
+  .caret{color:var(--muted);font-size:13px;transition:.2s}
+  .card.open .caret{transform:rotate(90deg)}
+  .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .badge{font-size:11.5px;padding:2px 8px;border-radius:10px;background:var(--surface1);color:var(--muted);border:1px solid var(--line)}
+  .badge b{color:var(--ink)}
+  .body{display:none;margin-top:12px;border-top:1px solid var(--line);padding-top:11px}
+  .card.open .body{display:block}
+  .blk{margin:0 0 11px}
+  .blk .lab{font-size:11.5px;font-weight:700;letter-spacing:.3px;text-transform:uppercase;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+  .blk .lab::before{content:"";width:8px;height:8px;border-radius:2px}
+  .blk.off .lab{color:var(--off)}.blk.off .lab::before{background:var(--off)}
+  .blk.det .lab{color:var(--det)}.blk.det .lab::before{background:var(--det)}
+  .blk.ctr .lab{color:var(--ctr)}.blk.ctr .lab::before{background:var(--ctr)}
+  .blk ul{margin:0;padding-left:17px}
+  .blk li{font-size:13.5px;color:var(--muted);margin:3px 0}
+  .blk li b{color:var(--ink);font-weight:600}
+  .metho{margin-top:24px;background:var(--surface);border:2px solid var(--accent);border-radius:12px;padding:16px 18px}
+  .metho h1{font-size:18px;margin:0;font-weight:700;color:var(--navy)}
+  .metho .msub{color:var(--muted);font-size:14px;margin:3px 0 12px}
+  .steps{display:flex;flex-wrap:wrap;gap:7px}
+  .step{font-size:12.5px;padding:6px 11px;border-radius:16px;border:1px solid var(--line);background:var(--surface1);cursor:pointer;display:flex;align-items:center;gap:7px}
+  .step.on{border:2px solid var(--accent);padding:5px 10px}
+  .step .n{width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .sdetail{margin-top:12px;background:var(--surface1);border-radius:8px;padding:12px 14px}
+  .sdetail .st{font-weight:700;color:var(--ink);font-size:15px}
+  .sdetail .sd{color:var(--muted);font-size:14px;margin-top:3px}
+  .foot{font-size:12px;color:var(--muted);margin:16px 0 4px}
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="logo">H<b>ACT</b></span>
+  <span class="sub" id="hsub"></span>
+  <div class="right">
+    <div class="lang"><button id="bEN" class="on" onclick="setLang('en')">EN</button><button id="bFR" onclick="setLang('fr')">FR</button></div>
+    <a class="back" href="index.html" id="back">← Matrix</a>
+  </div>
+</header>
+<main>
+  <h1 class="sec"><span id="ttl"></span></h1>
+  <p class="note" id="sub"></p>
+  <div class="chainlbl" id="chainlbl"></div>
+  <div class="barrow"><div class="chain" id="chain"></div><button class="expbtn" id="expall" onclick="expAll()"></button></div>
+  <div class="grid" id="grid"></div>
+
+  <div class="metho">
+    <h1 id="mTtl"></h1>
+    <p class="msub" id="mSub"></p>
+    <div class="steps" id="steps"></div>
+    <div class="sdetail" id="sdetail"></div>
+  </div>
+  <p class="foot" id="foot"></p>
+</main>
+
+<script src="data.js"></script>
+<script>
+var ICON={
+search:'<circle cx="10" cy="10" r="6"/><line x1="14.5" y1="14.5" x2="21" y2="21"/>',
+gear:'<circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3M6 6l2 2M16 16l2 2M18 6l-2 2M8 16l-2 2"/>',
+hook:'<path d="M16 4v8a5 5 0 0 1-10 0"/><circle cx="6" cy="19" r="2"/>',
+mask:'<path d="M3 7c0 7 4 11 9 11s9-4 9-11c-3 1-6 1.5-9 1.5S6 8 3 7z"/><circle cx="8.5" cy="11" r="1"/><circle cx="15.5" cy="11" r="1"/>',
+heart:'<path d="M12 20s-7-4.5-9-9a4.5 4.5 0 0 1 9-2 4.5 4.5 0 0 1 9 2c-2 4.5-9 9-9 9z"/>',
+spark:'<path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2 2-6z"/>',
+up:'<path d="M12 20V6M6 12l6-6 6 6"/>',
+net:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="7" r="2"/><circle cx="12" cy="18" r="2"/><path d="M7.5 7.2l3.4 9M16.6 8.4L13 16M8 6.3h8"/>',
+branch:'<circle cx="6" cy="6" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="12" r="2"/><path d="M8 6h4a4 4 0 0 1 4 4M8 18h4a4 4 0 0 0 4-4"/>',
+down:'<path d="M12 3v11M8 10l4 4 4-4M5 20h14"/>',
+ant:'<path d="M12 13v8M8 4a5 5 0 0 0 0 8M16 4a5 5 0 0 1 0 8M10 6.5a2.5 2.5 0 0 0 0 3M14 6.5a2.5 2.5 0 0 1 0 3"/>',
+upl:'<path d="M12 21V10M8 13l4-4 4 4M5 5h14"/>',
+mega:'<path d="M4 10v4h4l7 4V6l-7 4H4z"/><path d="M18 9a4 4 0 0 1 0 6"/>'
+};
+var ORDER=['TA-H001','TA-H002','TA-H003','TA-H004','TA-H005','TA-H006','TA-H007','TA-H008','TA-H009','TA-H010','TA-H011','TA-H012','TA-H013'];
+var ARS={
+'TA-H001':{ap:'Reconnaissance',n:24,ic:'search',ars:{en:['<b>Maltego</b> — link analysis & social-graph mapping','<b>SpiderFoot</b> — automated OSINT & attack-surface mapping','<b>theHarvester</b> — emails, names & subdomains from open sources','<b>Maigret / Sherlock</b> — username enumeration across 3000+ sites','<b>Holehe</b> — which sites an email is registered on','<b>PhoneInfoga / GHunt</b> — phone & Google-account OSINT','<b>MICE profiling</b> — mapping Money/Ideology/Coercion/Ego levers'],fr:['<b>Maltego</b> — analyse de liens & cartographie du graphe social','<b>SpiderFoot</b> — OSINT automatisé & surface d’attaque','<b>theHarvester</b> — emails, noms & sous-domaines en sources ouvertes','<b>Maigret / Sherlock</b> — énumération de pseudo sur 3000+ sites','<b>Holehe</b> — sites où une adresse email est enregistrée','<b>PhoneInfoga / GHunt</b> — OSINT téléphone & compte Google','<b>Profilage MICE</b> — leviers Argent/Idéologie/Contrainte/Ego']},det:{en:['Sudden spike in your profile views','Unusual third-party queries about you'],fr:['Pic soudain de vues sur vos profils','Requêtes inhabituelles de tiers à votre sujet']},ctr:{en:['Audit your digital footprint; restrict the public bio; tighten privacy'],fr:['Auditer son empreinte numérique ; restreindre la bio publique ; durcir la confidentialité']}},
+'TA-H002':{ap:'Resource Development',n:12,ic:'gear',ars:{en:['<b>Cover legend</b> — deep (long-op) vs shallow (one-shot) backstopped identity','<b>Sock-puppet network</b> — mutually-reinforcing fake profiles','<b>GAN faces</b> (thispersondoesnotexist) — synthetic profile photos','<b>dnstwist</b> — look-alike / typosquatted domains for pretexts','<b>ElevenLabs / Resemble AI</b> — real-time voice cloning from ~3s of audio','<b>DeepFaceLive</b> — real-time face-swap for video calls','<b>Burner infra</b> — VoIP numbers, secure email, cover accounts'],fr:['<b>Légende de couverture</b> — profonde (op longue) vs superficielle (one-shot)','<b>Réseau de sock puppets</b> — faux profils qui se valident entre eux','<b>Visages GAN</b> (thispersondoesnotexist) — photos de profil synthétiques','<b>dnstwist</b> — domaines sosies / typosquat pour le prétexte','<b>ElevenLabs / Resemble AI</b> — clonage vocal temps réel dès ~3 s d’audio','<b>DeepFaceLive</b> — face-swap temps réel pour appels vidéo','<b>Infra jetable</b> — numéros VoIP, email sécurisé, comptes de couverture']},det:{en:['Recent profile with a dense pre-dating history','Shared connections cannot actually vouch'],fr:['Profil récent à l’historique dense antérieur','Les relations communes ne peuvent pas vraiment attester']},ctr:{en:['Verify new contacts; check temporal consistency; validate references independently'],fr:['Vérifier les nouveaux contacts ; cohérence temporelle ; valider les références']}},
+'TA-H003':{ap:'Initial Access',n:10,ic:'hook',ars:{en:['<b>Social-Engineer Toolkit (SET)</b> — all-in-one SE attack framework','<b>GoPhish / King Phisher</b> — phishing campaign management','<b>evilginx2</b> — reverse-proxy phishing that also steals the MFA session token','<b>EvilGoPhish</b> — GoPhish + evilginx integration','<b>Caller-ID spoofing</b> — vishing with a trusted-looking number','<b>Quishing</b> — QR codes hiding the malicious URL','<b>Deepfake video call</b> — the Arup ($25M) vector'],fr:['<b>Social-Engineer Toolkit (SET)</b> — framework SE tout-en-un','<b>GoPhish / King Phisher</b> — gestion de campagnes de phishing','<b>evilginx2</b> — phishing par reverse-proxy qui vole aussi le jeton MFA','<b>EvilGoPhish</b> — intégration GoPhish + evilginx','<b>Usurpation d’identifiant d’appel</b> — vishing avec un numéro crédible','<b>Quishing</b> — QR codes masquant l’URL malveillante','<b>Appel vidéo deepfake</b> — le vecteur Arup (25 M$)']},det:{en:['Unsolicited contact with an unusual request','Offer too attractive and too fast'],fr:['Contact non sollicité avec demande inhabituelle','Offre trop attractive et trop rapide']},ctr:{en:['Train to spot unsolicited approaches; protocol to report them'],fr:['Former à détecter les approches non sollicitées ; protocole de signalement']}},
+'TA-H004':{ap:'Defense Evasion',n:8,ic:'mask',ars:{en:['<b>Consistency management</b> — same story across every channel & over time','<b>Backstopping</b> — verifiable cover: fake site, references, history','<b>Verification neutralization</b> — preemptive disclosures that pre-empt your checks','<b>Pretext scripts</b> — call transcripts & objection-handling playbooks','<b>Counter-surveillance / OPSEC</b> — detect the target’s verification attempts'],fr:['<b>Gestion de cohérence</b> — même récit sur tous les canaux et dans le temps','<b>Backstopping</b> — couverture vérifiable : faux site, références, historique','<b>Neutralisation des vérifications</b> — divulgations préventives qui devancent vos contrôles','<b>Scripts de prétexte</b> — transcriptions d’appels & réponses aux objections','<b>Contre-surveillance / OPSEC</b> — détecter les vérifications de la cible']},det:{en:['Answers your likely checks before you ask','Story suspiciously consistent everywhere'],fr:['Répond à vos vérifications avant même vos questions','Récit parfaitement cohérent partout']},ctr:{en:['Cross-check on independent channels; look for consistency over time'],fr:['Recouper sur des canaux indépendants ; cohérence dans le temps']}},
+'TA-H005':{ap:'Persistence',n:4,ic:'heart',ars:{en:['<b>Channel migration</b> — LinkedIn → WhatsApp → Signal/Telegram','<b>DISC-adapted communication</b> — mirror the target’s personality style','<b>Emotional mirroring</b> — synchronise affect to build attachment','<b>Identity bonding</b> — “you and me against the others”','<b>LLM rapport bots</b> — fine-tuned chatbots holding 100s of relations 24/7 (pig-butchering)'],fr:['<b>Migration de canal</b> — LinkedIn → WhatsApp → Signal/Telegram','<b>Communication DISC</b> — épouser le style de personnalité de la cible','<b>Mirroring émotionnel</b> — synchroniser l’affect pour créer l’attachement','<b>Lien identitaire</b> — « toi et moi contre les autres »','<b>Bots de rapport LLM</b> — chatbots fine-tunés, 100s de relations 24/7 (pig butchering)']},det:{en:['Relationship escalating too fast','Push toward private, unverifiable channels'],fr:['Relation qui s’intensifie trop vite','Poussée vers des canaux privés non vérifiables']},ctr:{en:['Refuse imposed channel migration; keep a third party informed'],fr:['Refuser la migration de canal imposée ; informer un tiers']}},
+'TA-H006':{ap:'Execution',n:13,ic:'spark',ars:{en:['<b>Emotional triggering</b> — fear / urgency / greed to short-circuit reflection','<b>Tactical storytelling</b> — a pretext narrative that lowers defenses','<b>Cialdini / PPSE levers</b> — authority, social proof, liking, reciprocity, scarcity','<b>Contextual escalation</b> — accelerate pace & tone to force a hasty decision','<b>BEC playbook</b> — CEO/CFO fraud combining authority + urgency','<b>LLM-generated elicitation</b> — automated, personalised extraction at scale'],fr:['<b>Déclencheur émotionnel</b> — peur / urgence / appât du gain','<b>Storytelling tactique</b> — un récit-prétexte qui baisse les défenses','<b>Leviers Cialdini / PPSE</b> — autorité, preuve sociale, similarité, réciprocité, rareté','<b>Escalade contextuelle</b> — accélérer rythme & ton pour forcer la décision','<b>Playbook BEC</b> — fraude au président (autorité + urgence)','<b>Élicitation par LLM</b> — extraction automatisée et personnalisée à grande échelle']},det:{en:['Artificial urgency','Sudden acceleration of pace and tone'],fr:['Urgence artificielle','Accélération soudaine du rythme et du ton']},ctr:{en:['Cooling-off rule; double-check via independent channel; bias training'],fr:['Règle du temps mort ; double vérification indépendante ; formation aux biais']}},
+'TA-H007':{ap:'Privilege Escalation',n:11,ic:'up',ars:{en:['<b>Simulated intimacy</b> — “you’re the only one I trust”','<b>Voluntary exposure staging</b> — share a fake secret to trigger reciprocity','<b>Targeted valorization</b> — intellectual flattery (Ego / MICE)','<b>Authority escalation</b> — invoke a higher authority to unlock access','<b>Quid pro quo</b> — a favour offered against information'],fr:['<b>Intimité simulée</b> — « tu es la seule personne en qui j’ai confiance »','<b>Mise en scène d’une confidence</b> — pour déclencher la réciprocité','<b>Valorisation ciblée</b> — flatterie intellectuelle (Ego / MICE)','<b>Escalade d’autorité</b> — invoquer une autorité supérieure pour ouvrir l’accès','<b>Quid pro quo</b> — un service offert contre une information']},det:{en:['Exclusive relational bubble','Flattery framing you as unique'],fr:['Bulle relationnelle exclusive','Flatterie vous présentant comme unique']},ctr:{en:['Keep several informational anchors; external view on intense ties'],fr:['Garder plusieurs ancres d’information ; regard externe sur les liens intenses']}},
+'TA-H008':{ap:'Discovery',n:6,ic:'net',ars:{en:['<b>Social-graph cartography</b> — Maltego / LinkedIn mapping of the entourage','<b>crosslinked</b> — enumerate a company’s employees from LinkedIn','<b>Device & service deduction</b> — infer OS, apps, messengers from clues','<b>Behavioral pattern analysis</b> — routines & moments of vulnerability','<b>Blind-spot mapping</b> — gaps in the target’s digital hygiene'],fr:['<b>Cartographie du graphe social</b> — Maltego / LinkedIn de l’entourage','<b>crosslinked</b> — énumérer les employés d’une société via LinkedIn','<b>Déduction outils & services</b> — OS, apps, messageries via indices','<b>Analyse des routines</b> — habitudes & moments de vulnérabilité','<b>Cartographie des angles morts</b> — failles d’hygiène numérique']},det:{en:['Innocuous questions that reveal your circle','Probing your tools and habits'],fr:['Questions anodines révélant votre entourage','Sondage de vos outils et habitudes']},ctr:{en:['Strict privacy config; metadata cleaning; no public links with children'],fr:['Confidentialité stricte ; nettoyage des métadonnées ; pas de lien public avec les enfants']}},
+'TA-H009':{ap:'Lateral Movement',n:12,ic:'branch',ars:{en:['<b>Targeted social propagation</b> — contact relatives with a credible pretext','<b>Compromise cascade</b> — use one manipulated contact to reach another','<b>Cross-pressure</b> — instrumentalise a third party to legitimise a request','<b>Warm-intro chaining</b> — name-dropping & referral chains','<b>Secondary-network reconstruction</b> — a social graph to rank secondary targets'],fr:['<b>Propagation sociale ciblée</b> — contacter les proches avec un prétexte crédible','<b>Cascade de compromission</b> — un contact manipulé pour en atteindre un autre','<b>Cross-pressure</b> — instrumentaliser un tiers pour légitimer une demande','<b>Chaînage d’intro</b> — name-dropping & chaînes de recommandation','<b>Reconstruction du réseau secondaire</b> — graphe pour hiérarchiser les cibles']},det:{en:['Someone contacting relatives claiming a link to you','A third party used to legitimize a request'],fr:['Un inconnu contacte vos proches en invoquant un lien avec vous','Un tiers instrumentalisé pour légitimer une demande']},ctr:{en:['Inform your circle; separate personal/pro; limit visible ties'],fr:['Informer son entourage ; cloisonner perso/pro ; limiter les liens visibles']}},
+'TA-H010':{ap:'Collection + Credential Access',n:14,ic:'down',ars:{en:['<b>evilginx2 relay</b> — real-time capture of credentials AND the MFA/session cookie','<b>Fake login pages</b> — credential harvesting','<b>Emotional exfiltration</b> — draw out revelations, recorded without consent','<b>ExifTool</b> — pull EXIF / geolocation / author metadata from sent files','<b>Screenshot pull</b> — archive exchanges for future use','<b>OTP social extraction</b> — get the one-time code “to verify your account”'],fr:['<b>Relais evilginx2</b> — capture temps réel des identifiants ET du cookie MFA/session','<b>Fausses pages de connexion</b> — récolte d’identifiants','<b>Exfiltration émotionnelle</b> — soutirer des révélations, enregistrées sans consentement','<b>ExifTool</b> — métadonnées EXIF / géoloc / auteur des fichiers reçus','<b>Screenshot pull</b> — archiver les échanges pour usage futur','<b>Extraction sociale d’OTP</b> — obtenir le code « pour vérifier votre compte »']},det:{en:['Early personal questions','Requests to send documents; requests for an OTP code'],fr:['Questions personnelles précoces','Demande d’envoi de documents ; demande d’un code OTP']},ctr:{en:['Beware early personal questions; clean metadata; NEVER share an OTP'],fr:['Se méfier des questions précoces ; nettoyer les métadonnées ; ne JAMAIS donner d’OTP']}},
+'TA-H011':{ap:'Command & Control',n:9,ic:'ant',ars:{en:['<b>Imposed rhythm</b> — control the tempo to create tension & dependency','<b>Channel restriction</b> — keep it to encrypted, unlogged media','<b>Validation transfer</b> — become the only trusted source; discredit others','<b>Affective gearing</b> — intermittent reinforcement (seduction/rejection)','<b>Living-off-trusted-sites</b> — use legit platforms (Google Docs, Telegram) as relay'],fr:['<b>Rythme imposé</b> — contrôler le tempo pour créer tension & dépendance','<b>Restriction de canal</b> — s’en tenir à des médias chiffrés, non journalisés','<b>Transfert de validation</b> — devenir la seule source ; discréditer les autres','<b>Gearing affectif</b> — renforcement intermittent (séduction/rejet)','<b>Living-off-trusted-sites</b> — plateformes légitimes (Google Docs, Telegram) en relais']},det:{en:['Imposed tempo creating dependency','Alternating seduction and victimhood'],fr:['Tempo imposé créant une dépendance','Alternance séduction / victimisation']},ctr:{en:['Never accept a single imposed channel; require third-party validation'],fr:['Ne jamais accepter un canal unique imposé ; exiger une validation par un tiers']}},
+'TA-H012':{ap:'Exfiltration',n:6,ic:'upl',ars:{en:['<b>Verbal data exfil</b> — high-value info via manipulated calls','<b>Behavioral exfil</b> — observing & documenting the target’s reactions','<b>Document exfil</b> — getting physical or digital files sent over','<b>Out-of-band human channels</b> — move data off traceable corporate tools','<b>Covert recording</b> — audio/video captured without consent'],fr:['<b>Exfil verbale</b> — info à haute valeur via des appels manipulés','<b>Exfil comportementale</b> — observer & documenter les réactions de la cible','<b>Exfil documentaire</b> — faire envoyer des fichiers physiques ou numériques','<b>Canaux humains hors-bande</b> — sortir les données des outils traçables','<b>Enregistrement clandestin</b> — audio/vidéo sans consentement']},det:{en:['Oral transfer of high-value information','Obtaining documents through manipulation'],fr:['Transfert oral d’informations à haute valeur','Obtention de documents par manipulation']},ctr:{en:['Practise reserve with unverified parties; no premature emotional engagement'],fr:['Pratiquer la réserve avec tout interlocuteur non vérifié ; pas d’engagement émotionnel prématuré']}},
+'TA-H013':{ap:'Impact',n:4,ic:'mega',ars:{en:['<b>Saturation</b> — mass harassment overloading attention & resources','<b>Public infamy</b> — deepfakes, fake posts, coordinated campaigns','<b>Disinformation ops</b> — coordinated inauthentic behaviour','<b>IRL surveillance & intimidation</b> — a climate of insecurity','<b>Legal weaponization</b> — abusive complaints, false reports, SLAPP','<b>Doxxing</b> — publishing private data to expose the target'],fr:['<b>Saturation</b> — harcèlement massif saturant l’attention & les ressources','<b>Atteinte réputationnelle</b> — deepfakes, faux messages, campagnes coordonnées','<b>Opérations de désinformation</b> — comportement inauthentique coordonné','<b>Surveillance & intimidation IRL</b> — instaurer un climat d’insécurité','<b>Instrumentalisation juridique</b> — plaintes abusives, faux signalements, SLAPP','<b>Doxxing</b> — publier des données privées pour exposer la cible']},det:{en:['Mass harassment overloading attention','Reputation attacks via fake content'],fr:['Harcèlement massif saturant l’attention','Attaques réputationnelles par faux contenus']},ctr:{en:['Predefined response plan; crisis contacts; document for authorities'],fr:['Plan de réponse prédéfini ; contacts de crise ; documenter pour les autorités']}}
+};
+var NAMEFR={'TA-H001':'Renseignement sur la cible','TA-H002':'Préparation opérationnelle','TA-H003':'Contact initial','TA-H004':'Légende & couverture','TA-H005':'Ingénierie du lien','TA-H006':'Exploitation psychologique','TA-H007':'Escalade d’accès','TA-H008':'Découverte du réseau','TA-H009':'Propagation sociale','TA-H010':'Collecte de renseignement','TA-H011':'Communication de pilotage','TA-H012':'Exfiltration','TA-H013':'Influence & impact'};
+var byId={}; if(typeof TACTICS!=='undefined'){TACTICS.forEach(function(t){byId[t.id]=t;});}
+function nameOf(id){return L=='fr'?(NAMEFR[id]||(byId[id]&&byId[id].name)||id):((byId[id]&&byId[id].name)||id);}
+function attOf(id){return (byId[id]&&byId[id].attack)||'';}
+var STR={
+ hsub:{en:'Red-team arsenal by tactic',fr:'Arsenal red-team par tactique'},
+ back:{en:'← Matrix',fr:'← Matrice'},
+ ttl:{en:'Red-Team Arsenal',fr:'Arsenal par tactique'},
+ sub:{en:'The 13 HACT tactics as a HUMINT engagement — offensive methods, detection (IoH) and countermeasures (CM), mapped to MITRE ATT&CK®. Public methods, shown for defensive awareness and authorised testing only.',fr:'Les 13 tactiques HACT en engagement HUMINT — méthodes offensives, détection (IoH) et contre-mesures (CM), mappées sur MITRE ATT&CK®. Méthodes publiques, présentées à des fins défensives et de test autorisé uniquement.'},
+ chain:{en:'Attack chain — click a tactic',fr:'Chaîne d’attaque — cliquez une tactique'},
+ off:{en:'Arsenal · offense',fr:'Arsenal · offensif'},dett:{en:'Detection · IoH',fr:'Détection · IoH'},ctrt:{en:'Counter · CM',fr:'Contre-mesure · CM'},
+ tools:{en:'red-team tools',fr:'outils red-team'},dd:{en:'Deep-dive',fr:'Approfondir'},
+ expand:{en:'Expand all',fr:'Tout déplier'},collapse:{en:'Collapse all',fr:'Tout replier'},
+ mTtl:{en:'HACT engagement methodology',fr:'Méthodologie d’engagement HACT'},
+ mSub:{en:'The red-team workflow, transposed to HUMINT. Click a phase.',fr:'Le workflow red-team, transposé au HUMINT. Cliquez une phase.'},
+ foot:{en:'Offensive methods and tool names are public and shown strictly for defensive awareness and authorised testing. Mapped to MITRE ATT&CK® (trademarks of The MITRE Corporation).',fr:'Les méthodes et noms d’outils sont publics et présentés strictement à des fins défensives et de test autorisé. Mappés sur MITRE ATT&CK® (marques de The MITRE Corporation).'}
+};
+var METHO=[
+{t:{en:'Emulation plan',fr:'Plan d’émulation'},d:{en:'Pick a HUMINT threat persona (BEC fraud, pig-butchering, state recruiter, insider) and map its TH-xxxx techniques.',fr:'Choisir un persona d’acteur HUMINT (fraude au président, pig butchering, recruteur étatique, insider) et cartographier ses techniques TH-xxxx.'}},
+{t:{en:'Scoping & rules of engagement',fr:'Cadrage & règles d’engagement'},d:{en:'Written authorization, excluded populations, notification chain — plus a duty of psychological care.',fr:'Autorisation écrite, populations exclues, chaîne de notification — et un devoir de protection psychologique.'}},
+{t:{en:'Execution along the kill chain',fr:'Exécution le long de la kill chain'},d:{en:'Run the 13 tactics; hunting (short-circuit to exploitation) vs farming (the full chain over weeks).',fr:'Dérouler les 13 tactiques ; hunting (court-circuit vers l’exploitation) vs farming (chaîne complète sur des semaines).'}},
+{t:{en:'Detection heatmap — the HACT Navigator',fr:'Heatmap de détection — le HACT Navigator'},d:{en:'Colour the 13 tactics: green = exercised AND detected, red = tested but missed, grey = not tested. Empty cells = blind spots.',fr:'Colorer les 13 tactiques : vert = exercée ET détectée, rouge = testée mais manquée, gris = non testée. Les cases vides = angles morts.'}},
+{t:{en:'Metrics',fr:'Métriques'},d:{en:'Reporting rate, detection delay, tactic coverage. The sensor is people, not the EDR.',fr:'Taux de signalement, délai de détection, couverture tactique. Le capteur, ce sont les gens, pas l’EDR.'}},
+{t:{en:'Purple team & remediation',fr:'Purple team & remédiation'},d:{en:'Map each executed TH to its CM-Hxxx countermeasure — the improvement loop.',fr:'Associer chaque TH exécutée à sa contre-mesure CM-Hxxx — la boucle d’amélioration.'}},
+{t:{en:'Blameless debrief',fr:'Débrief bienveillant'},d:{en:'HUMINT-specific: never shame the tested person; return them to a positive state.',fr:'Propre au HUMINT : ne jamais humilier la personne testée ; la ramener à un état positif.'}},
+{t:{en:'Report & maturity',fr:'Rapport & maturité'},d:{en:'Findings by tactic, coverage heatmap, prioritized CMs, and an N1–N5 maturity level.',fr:'Findings par tactique, heatmap de couverture, CM priorisées, et un niveau de maturité N1–N5.'}}
+];
+var L='en',STEP=0,ALL=false;
+function hue(i){return Math.round(i*360/13);}
+function col(i){return 'hsl('+hue(i)+',55%,45%)';}
+function render(){
+ document.getElementById('hsub').textContent=STR.hsub[L];
+ document.getElementById('back').textContent=STR.back[L];
+ document.getElementById('ttl').textContent=STR.ttl[L];
+ document.getElementById('sub').textContent=STR.sub[L];
+ document.getElementById('chainlbl').textContent=STR.chain[L];
+ document.getElementById('mTtl').textContent=STR.mTtl[L];
+ document.getElementById('mSub').textContent=STR.mSub[L];
+ document.getElementById('expall').textContent=ALL?STR.collapse[L]:STR.expand[L];
+ document.getElementById('foot').textContent=STR.foot[L];
+ document.getElementById('bEN').className=L=='en'?'on':'';
+ document.getElementById('bFR').className=L=='fr'?'on':'';
+ document.title='HACT — '+STR.ttl[L];
+ document.getElementById('chain').innerHTML=ORDER.map(function(id,i){return '<span class="chip" onclick="jump('+i+')"><span class="dot" style="background:'+col(i)+'"></span>'+id+'</span>';}).join('');
+ document.getElementById('grid').innerHTML=ORDER.map(function(id,i){
+  var a=ARS[id],c=col(i);
+  function ul(arr){return '<ul>'+arr.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';}
+  return '<div class="card'+(ALL?' open':'')+'" id="card'+i+'">'+
+   '<div class="chead" onclick="tog('+i+')"><div class="ico" style="background:hsl('+hue(i)+',55%,45%,.13);color:'+c+'"><svg viewBox="0 0 24 24" stroke="currentColor">'+ICON[a.ic]+'</svg></div>'+
+   '<div class="ctitle"><div class="cid">'+id+'</div><div class="cname">'+nameOf(id)+'</div></div><div class="caret">▸</div></div>'+
+   '<div class="meta"><span class="badge">'+a.n+'&nbsp;'+STR.tools[L]+'</span><span class="badge">ATT&amp;CK: <b>'+attOf(id)+'</b></span><span class="badge">A-poc: <b>'+a.ap+'</b></span></div>'+
+   '<div class="body">'+
+     '<div class="blk off"><div class="lab">'+STR.off[L]+'</div>'+ul(a.ars[L])+'</div>'+
+     '<div class="blk det"><div class="lab">'+STR.dett[L]+'</div>'+ul(a.det[L])+'</div>'+
+     '<div class="blk ctr"><div class="lab">'+STR.ctrt[L]+'</div>'+ul(a.ctr[L])+'</div>'+
+   '</div></div>';
+ }).join('');
+ document.getElementById('steps').innerHTML=METHO.map(function(m,i){return '<span class="step'+(i==STEP?' on':'')+'" onclick="setStep('+i+')"><span class="n">'+(i+1)+'</span>'+m.t[L]+'</span>';}).join('');
+ document.getElementById('sdetail').innerHTML='<div class="st">'+(STEP+1)+'. '+METHO[STEP].t[L]+'</div><div class="sd">'+METHO[STEP].d[L]+'</div>';
+}
+function setLang(l){L=l;render();}
+function tog(i){document.getElementById('card'+i).classList.toggle('open');}
+function expAll(){ALL=!ALL;render();}
+function jump(i){var c=document.getElementById('card'+i);c.classList.add('open');document.querySelectorAll('.card').forEach(function(x){x.classList.remove('hl');});c.classList.add('hl');c.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(function(){c.classList.remove('hl');},1600);}
+function setStep(i){STEP=i;render();}
+render();
+</script>
+</body>
+</html>
